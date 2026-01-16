@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            Verify Email Page
+        </title>
+        <link rel="stylesheet" href="css/verifyEmail.css">
+
+    </head>
+    <body>
+        <video class="login-video" autoplay muted loop playsinline id="loginVideo">
+            <source src="/Makina/video/login.mp4" type="video/mp4">
+        </video>
+        <div class="auth-shell">
+            <div class="auth-card">
+                <form id="form">
+                    <h1>Verify your email</h1>
+
+                    <label id="firstLabel">A verification code has been sent to your email.</label><br>
+                    <label>Please enter the code you received below to verify your email address.</label>
+
+                    <input type="number" id="kodiVerifikimitInput" placeholder="6-digit code">
+                    <button id="verifyButton">VERIFY</button>
+                    <button id="ridergoKodin">RESEND CODE</button>
+                    <a id="ndryshoEmailin" href="register.html">CHANGE EMAIL</a>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            window.addEventListener('load', function(event){
+                event.preventDefault();
+
+                fetch('registerLogin.php', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: JSON.stringify({action: "sendVerificationCode"})
+
+                    
+                })
+                .then(response => response.text())
+                .then(responseText => {
+                    console.log('Raw response:', responseText);
+                    try {
+                        const data = JSON.parse(responseText);
+                        if (data.success) {
+
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+
+                        alert("An error occurred while sending the code by email.");
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred while sending the code by email.");
+
+                });
+            });
+
+            document.getElementById('ridergoKodin').addEventListener('click', function(event) {
+                
+                event.preventDefault();
+                const button = event.target;
+                button.disabled = true;
+                fetch('registerLogin.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: JSON.stringify({action: "sendVerificationCode"})
+
+                    
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("A verification code has been sent to your email.");
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred while sending the code by email.");
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+            });
+
+
+            document.getElementById("verifyButton").addEventListener("click", function(event) {
+                event.preventDefault();
+                
+                const enteredCode = document.getElementById("kodiVerifikimitInput").value;
+
+                const codeRegex = /^\d{6}$/;
+
+                if (!codeRegex.test(enteredCode)) {
+                    alert("The code must be 6 digits.");
+                    return;
+                }
+                
+                fetch("verifyEmail.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ verificationCode: enteredCode, verify: true, action: "verifyEmailInDatabase"})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert("Email verified successfully!");
+                        window.location.href = "login.html";
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            document.getElementById('ndryshoEmailin').addEventListener('click', function(event) {
+                window.location.href = "register.html";
+
+            });
+
+            
+        </script>
+        <script>
+            const loginVideo = document.getElementById("loginVideo");
+            if (loginVideo) {
+                loginVideo.playbackRate = 0.75;
+            }
+        </script>
+        <script src="sessionTimeout.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,260 @@
+@import url('/Makina/theme.css');
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+  color: var(--text);
+}
+
+#header {
+  margin-bottom: 16px;
+}
+
+.profile-title {
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  text-align: left;
+  color: var(--text);
+}
+
+th {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  width: 100%;
+}
+
+img {
+  cursor: pointer;
+}
+
+button,
+.custom-file-upload {
+  border-radius: 999px;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover,
+.custom-file-upload:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+#profile_list,
+#profile_admin,
+#profile_user,
+#add_user_form,
+#car_list_form,
+#car_details,
+#motorcycle_list_form,
+#motorcycle_details,
+#menue_admin {
+  background: rgba(12, 18, 32, 0.92);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+}
+
+#profile_list,
+#profile_admin,
+#profile_user,
+#add_user_form,
+#car_list_form,
+#car_details,
+#motorcycle_list_form,
+#motorcycle_details {
+  display: none;
+}
+
+#profile_list,
+#profile_admin,
+#profile_user,
+#add_user_form,
+#car_details,
+#motorcycle_list_form,
+#motorcycle_details,
+#menue_admin {
+  width: min(1100px, 92vw);
+  margin: 24px auto;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+#profile_admin,
+#car_list_form,
+#motorcycle_list_form {
+  max-height: 75vh;
+  overflow: auto;
+}
+
+.client-table tbody tr:hover,
+#profile_admin td:hover,
+#profile_user td:hover,
+#add_user_form td:hover,
+#car_details td:hover,
+#motorcycle_details td:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.button-container {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.signout-container {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.admin-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.client-table th,
+.client-table td {
+  border: 1px solid var(--border);
+}
+
+#profileImage {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+#form {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 15, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.carDetails {
+  width: min(980px, 92vw);
+  max-height: 85vh;
+  overflow: auto;
+  background: rgba(12, 18, 32, 0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  color: var(--text);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+  gap: 20px;
+}
+
+#imageContainer,
+#motorcycleImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#carImage,
+#motorcycleImage {
+  width: min(420px, 70vw);
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+#detailsContainer,
+#motorcycleDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#detailsContainer label,
+#motorcycleDetailsContainer label {
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .carDetails {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bokingHistory {
+  width: min(900px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  background: rgba(12, 18, 32, 0.96);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  color: var(--text);
+}
+
+.bokingHistory h2 {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+#bokingHistoryContainer p {
+  color: var(--muted);
+}

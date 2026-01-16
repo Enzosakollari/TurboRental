@@ -1,0 +1,188 @@
+@import url('/Makina/theme.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+}
+#cart-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+
+td img {
+    width: 100px;
+    height: auto;
+    border-radius: 6px;
+}
+
+td {
+    font-size: 1rem;
+}
+
+td:last-child {
+    font-weight: bold;
+    color: var(--accent-2);
+}
+h2 {
+    text-align: right;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-top: 20px;
+}
+#checkout-button-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px;
+}
+#checkout-button-container form {
+    display: flex;
+    justify-content: center;
+}
+#checkout-button-container button {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    box-shadow: var(--shadow-sm);
+}
+
+#checkout-button-container button img {
+    margin-right: 10px;
+    width: 20px;      
+}
+
+#checkout-button-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#checkout-button-container button:active {
+    transform: translateY(0);
+}
+
+#checkout-button-container button:focus {
+    outline: none; 
+}
+
+
+@media (max-width: 768px) {
+    #cart-container {
+        padding: 15px;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    td img {
+        width: 80px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    #checkout-button-container button {
+        width: 100%;
+        font-size: 1.1rem;
+    }
+}
+
+
+
+
+
+
+
+#clear-button-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-top: 20px;
+}
+
+#clear-button-container button {
+    background-color: white;
+    color: var(--accent-2);
+    border: 2px solid var(--accent-2);
+    padding: 10px 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+}
+
+#clear-button-container button:hover {
+    background-color: var(--accent-2); 
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+#checkout-button-container button:active {
+    background-color: var(--accent-3);
+    color: white;
+    opacity: 80%;
+}

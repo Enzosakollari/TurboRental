@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html/Makina
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: car_rental
+      DB_USER: root
+      DB_PASS: "1234"
+      APP_BASE_URL: http://localhost:8080
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: car_rental
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: "1234"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

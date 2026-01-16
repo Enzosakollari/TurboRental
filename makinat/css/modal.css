@@ -1,0 +1,554 @@
+@import url('/Makina/theme.css');
+
+/* Modal Background */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 27, 45, 0.45);
+  overflow: auto;
+  /* padding-top: 60px; */
+  backdrop-filter: blur(6px);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: var(--surface);
+  /* margin: 5% auto; */
+  margin: 100px auto;
+  padding: 24px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  width: 30%;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.modal-content p{
+  margin:0;
+}
+/* Close Button (X) */
+.close {
+  color: var(--muted);
+  font-size: 30px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+}
+.modalBtn-container{
+ display: flex;
+ gap:0.9rem;
+ justify-content: center;
+}
+.modalBtn{
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+/* Apply Button */
+#applyBtn {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  color: white;
+}
+
+#applyBtn:hover {
+  transform: translateY(-2px);
+}
+#removeBtn {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+#removeBtn:hover {
+  transform: translateY(-2px);
+}
+
+
+.checkbox-container {
+  display: flex;
+  align-self: start;
+  gap: 20px;
+  padding: 0.8rem 0.7rem;
+  max-width: 300px;
+  border-radius: 0.2rem;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0,0.2); */
+  margin: 0 auto;
+}
+
+/* Hide default checkboxes */
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+/* Style for the labels */
+.custom-checkbox label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* font-size: 1.rem; */
+  cursor: pointer;
+  padding-left: 35px; /* Space for the custom checkbox */
+}
+
+/* Custom checkbox style */
+.custom-checkbox label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* transform: translateY(-50%); */
+  width: 19px;
+  height: 19px;
+  border-radius: 6px; /* Slightly rounded corners for checkboxes */
+  border: 2px solid var(--accent-2);
+  background-color: white;
+  transition: all 0.3s, border 0.3s;
+}
+
+/* Checked checkbox style */
+.custom-checkbox input[type="checkbox"]:checked + label::before {
+  background-color: var(--accent-2);
+  border-color: var(--accent-2);
+}
+
+/* Checkmark when checkbox is checked */
+.custom-checkbox input[type="checkbox"]:checked + label::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 8px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Hover effect for the checkbox */
+.custom-checkbox label:hover::before {
+  border-color: var(--accent-3);
+}
+
+/* Focus effect for the checkbox */
+.custom-checkbox input[type="checkbox"]:focus + label::before {
+  box-shadow: 0 0 0 3px rgba(15, 139, 157, 0.25);
+}
+
+/* Style for the container title */
+.radio-container h2 {
+  text-align: center;
+  font-size: 20px;
+  color: var(--text);
+}
+
+/*  */
+.price-container {
+  /* position: relative; */
+  align-self: center;
+  border-radius: 0.5rem;
+  /* padding: 0.8rem 0.6rem; */
+  box-shadow: var(--shadow-sm);
+
+
+}
+
+/* Style the number input box */
+.price-container input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  outline: none;
+  background-color: white;
+  color: var(--text);
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+/* Focus effect for input */
+.price-container input[type="number"]:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(15, 139, 157, 0.2);
+}
+
+/* Hide default spinner (up and down arrows) */
+.price-container input::-webkit-outer-spin-button,
+.price-container input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Optional: Add custom up and down buttons (using ::after and ::before) */
+.price-container button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  background-color: var(--accent-2);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Style the up button */
+.price-container button.up {
+  border-radius: 5px 0 0 5px;
+}
+
+/* Style the down button */
+.price-container button.down {
+  border-radius: 0 5px 5px 0;
+}
+
+/* Button hover effects */
+.price-container button:hover {
+  background-color: var(--accent-3);
+}
+
+/*  */
+.select-container {
+  background-color: var(--surface);
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0,0.2); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+}
+.select-container p{
+  align-self: start;
+}
+
+.select-container select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  outline: none;
+  width: 200px;
+  background-color: var(--surface-2);
+  transition: all 0.3s;
+}
+#mode{
+  box-shadow: var(--shadow-sm);
+}
+
+select:focus {
+  border-color: var(--accent-2);
+}
+
+option {
+  font-size: 16px;
+}
+
+
+
+
+
+
+/* per car detail page */
+/* modal e kam ba koment sepse perdori t njejten qe esht lart */
+/* .modal {
+  display: none; 
+  position: fixed; 
+  z-index: 100; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.4); /
+
+  
+} */
+
+
+.carDetails {
+  background-color: var(--surface);
+  margin: 5% auto;
+  padding: 40px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+  column-gap: 24px;
+  row-gap: 20px;
+  color: var(--text);
+}
+
+#imageContainer {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#detailsContainer {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.reviews-section {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+#imageContainer{
+  display: flex;
+  align-items: center;
+}
+
+#carImage{
+  width: 700px; 
+  height: 500px; 
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+
+}
+#leftArrow,#rightArrow{
+  border: none;
+  background-color: rgba(255, 255, 255, 0.85);
+  font-size: xxx-large;
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  color: var(--accent-3);
+  opacity: 90%;
+  border-radius: 25px;
+  box-shadow: var(--shadow-sm);
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+#leftArrow:hover,#rightArrow:hover{
+  opacity: 100%;
+}
+#leftArrow:active,#rightArrow:active{
+  color: white;
+  opacity: 100%;
+}
+#detailsContainer{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  font-family: "Manrope", sans-serif;
+  padding-left: 10px;
+}
+h1{
+  margin: 0px;
+}
+.staticLabel{
+  font-weight: bold;
+}
+.detailLabel{
+  font-style: italic;
+  color: var(--muted);
+  
+}
+
+
+#rezervoButton{
+  padding: 12px;
+  font-size: small;
+  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  opacity: 100%;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  
+}
+#rezervoButton:hover{
+  transform: translateY(-2px);
+}
+#rezervoButton:active{
+  opacity: 100%;
+}
+
+#dilButton{
+  padding: 12px;
+  font-size: small;
+  color: var(--accent-3);
+  background-color: white;
+  opacity: 100%;
+  cursor: pointer;
+  border: solid 2px var(--accent-3);
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+#dilButton:hover{
+  transform: translateY(-2px);
+}
+#dilButton:active{
+  opacity: 100%;
+}
+
+.reviews-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-summary {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 180px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.review-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-form textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 8px;
+}
+
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.star-rating input {
+  position: absolute;
+  opacity: 0;
+}
+
+.star-rating label {
+  cursor: pointer;
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #c21b2c;
+}
+
+.star-rating input:checked ~ label {
+  color: #c21b2c;
+}
+
+.review-stars {
+  display: inline-flex;
+  gap: 2px;
+  letter-spacing: 1px;
+}
+
+.review-stars .filled {
+  color: #c21b2c;
+}
+
+.review-stars .empty {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+#submitReview {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#submitReview:hover {
+  transform: translateY(-2px);
+}
+
+.review-notice {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1100px) {
+  .carDetails {
+    grid-template-columns: 1fr;
+  }
+
+  #imageContainer {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: center;
+  }
+
+  #detailsContainer {
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 0;
+  }
+
+  .reviews-section {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #carImage {
+    width: min(92vw, 700px);
+    height: auto;
+  }
+}
+

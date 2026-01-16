@@ -1,0 +1,116 @@
+@import url('/Makina/theme.css');
+
+body, html{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+    color: var(--text);
+}
+
+#container{
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    /* width: 1200px; */
+    padding: 40px;
+    padding-left: 0px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    
+}
+#imageContainer{
+    display: flex;
+    align-items: center;
+}
+
+#carImage{
+    width: 700px; 
+    height: 500px; 
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+
+}
+#leftArrow,#rightArrow{
+    border: none;
+    background-color: rgba(255, 255, 255, 0.85);
+    font-size: xxx-large;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    color: var(--accent-3);
+    opacity: 90%;
+    border-radius: 25px;
+    box-shadow: var(--shadow-sm);
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+#leftArrow:hover,#rightArrow:hover{
+    opacity: 100%;
+}
+#leftArrow:active,#rightArrow:active{
+    color: white;
+    opacity: 100%;
+}
+#detailsContainer{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    font-family: "Manrope", sans-serif;
+    padding-left: 10px;
+}
+h1{
+    margin: 0px;
+}
+.staticLabel{
+    font-weight: bold;
+}
+.detailLabel{
+    font-style: italic;
+    color: var(--muted);
+    
+}
+
+
+
+
+
+#rezervoButton{
+    padding: 12px;
+    font-size: small;
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    opacity: 100%;
+    cursor: pointer;
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    
+}
+#rezervoButton:hover{
+    transform: translateY(-2px);
+}
+#rezervoButton:active{
+    opacity: 100%;
+}
+
+#dilButton{
+    padding: 12px;
+    font-size: small;
+    color: var(--accent-3);
+    background-color: white;
+    opacity: 100%;
+    cursor: pointer;
+    border: solid 2px var(--accent-3);
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+#dilButton:hover{
+    transform: translateY(-2px);
+}
+#dilButton:active{
+    opacity: 100%;
+}

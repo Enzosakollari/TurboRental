@@ -1,0 +1,92 @@
+@import url('/Makina/theme.css');
+
+body {
+    background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+    color: var(--text);
+}
+#successcontainer{
+    margin: 0 auto;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 30px;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    margin-top: 100px;
+    max-width: 500px;
+    width: 100%;
+}
+
+header {
+    background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+#payment-success-container {
+    background-color: var(--surface);
+    padding: 30px;
+    margin: 50px auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--accent-2);
+}
+
+p {
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+#payment-information {
+    background-color: var(--surface-2);
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    font-size: 1rem;
+}
+
+#payment-information div {
+    margin-bottom: 10px;
+}
+
+#payment-information div:last-child {
+    margin-bottom: 0;
+}
+button {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+button:focus {
+    outline: none;
+}

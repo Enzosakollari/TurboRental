@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            Register Page
+        </title>
+        <link rel="stylesheet" href="css/register.css">
+
+    </head>
+    <body>
+        <video class="login-video" autoplay muted loop playsinline id="loginVideo">
+            <source src="/Makina/video/login.mp4" type="video/mp4">
+        </video>
+        <div class="auth-shell">
+            <div class="auth-card">
+                <form id="form" action="verifyEmail.html">
+                    <h1>Sign up</h1>
+                    <div class="startEnd">
+                        <label id="kaAccountLabel">Already have an account?</label>
+                        <a id="regjistrohuLink" href="login.html">Login</a>
+                    </div>
+                        
+                    <label class="labels">Username</label>
+                    <input type="text" id="usernameInput" placeholder="Example" required>
+
+                    <label class="labels">Email address</label>
+                    <input type="email" id="emailInput" placeholder="example@domain.com" required>
+                       
+                    <label class="labels">Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter 8 or more characters" required>
+
+                    
+                    <button id="registerButton">SIGN UP</button>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            
+            document.getElementById("registerButton").addEventListener("click", function(event) {
+                event.preventDefault();
+
+        
+                const username = document.getElementById("usernameInput").value;
+                const email = document.getElementById("emailInput").value;
+                const password = document.getElementById("passwordInput").value;
+
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*[-._!#$%&?])[A-Za-z\d!#$%&?]{8,255}$/;
+                const usernameRegex = /[A-Za-z][A-Za-z0-9._!#$%&?-]{2,20}$/;
+
+                if (!emailRegex.test(email)) {
+                    alert("Please enter a valid email.");
+                    return;
+                }
+                if (!passwordRegex.test(password)) {
+                    alert("Password must be at least 8 characters long and include a letter and a special character.");
+                    return;
+                }
+                if (!usernameRegex.test(username)) {
+                    alert("Please enter a valid username.");
+                    return;
+                }
+
+                const data = {
+                    username: username,
+                    email: email,
+                    password: password,
+                    action: "register"
+                };
+
+                fetch("registerLogin.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("User registered successfully!");
+                        window.location.href = "verifyEmail.html";
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+
+        <script>
+            const loginVideo = document.getElementById("loginVideo");
+            if (loginVideo) {
+                loginVideo.playbackRate = 0.75;
+            }
+        </script>
+        <script src="sessionTimeout.js"></script>
+        
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<?php require_once __DIR__ . '/../config/bootstrap.php'; ?>
+<html>
+<head>
+    <title>Payment Completed</title>
+    <link rel="stylesheet" href="css/success.css">
+</head>
+<body>
+    <?php require_once __DIR__ . '/../navigation/navigation.php'; ?>
+    <div id="successcontainer">
+        <h1>Payment completed!</h1>
+        <p>Thank you for your motorcycle reservation! The transaction was successful!</p>
+        <script src="/Makina/registerLogin/sessionTimeout.js"></script>
+    </div>
+</body>
+</html>
+
+<?php
+include 'config.php';
+include 'db_config.php'; 
+
+if (isset($_GET['session_id'])) {
+    $sessionId = $_GET['session_id'];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/checkout/sessions/' . $sessionId . '?expand[]=payment_intent');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . STRIPE_SECRET_KEY
+    ]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $session = json_decode($response, true);
+
+    if (!empty($session['payment_status']) && $session['payment_status'] === 'paid') {
+        $metadata = $session['metadata'] ?? [];
+        $bookingIds = isset($metadata['motorcycle_booking_ids']) ? array_filter(explode(',', $metadata['motorcycle_booking_ids'])) : [];
+        $userId = $_SESSION['id'] ?? (int)($metadata['user_id'] ?? 0);
+        $providerTransactionId = $session['payment_intent'] ?? $sessionId;
+
+        foreach ($bookingIds as $bookingId) {
+            $bookingId = (int)$bookingId;
+            $stmt = $conn->prepare("UPDATE motorcycle_bookings SET status = 'confirmed' WHERE id = ? AND status = 'pending'");
+            $stmt->bind_param('i', $bookingId);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt = $conn->prepare("SELECT total_price FROM motorcycle_bookings WHERE id = ?");
+            $stmt->bind_param('i', $bookingId);
+            $stmt->execute();
+            $stmt->bind_result($totalPrice);
+            $stmt->fetch();
+            $stmt->close();
+
+            $status = strtoupper($session['payment_status']);
+            $stmt = $conn->prepare("INSERT INTO motorcycle_transactions (booking_id, provider, provider_transaction_id, checkout_session_id, amount, status, created_at) VALUES (?, 'stripe', ?, ?, ?, ?, NOW())");
+            $stmt->bind_param('issds', $bookingId, $providerTransactionId, $sessionId, $totalPrice, $status);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        if ($userId) {
+            $stmt = $conn->prepare("DELETE FROM motorcycle_cart WHERE user_id = ?");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $stmt->close();
+        }
+    } else {
+        echo "Payment not completed.";
+    }
+} else {
+    echo "Invalid request. Payment session is missing.";
+}
+?>
