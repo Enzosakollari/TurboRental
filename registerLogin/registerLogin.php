@@ -385,7 +385,8 @@ else if($actionCalled == "sendVerificationCode"){
     } else {
         echo json_encode([
             'success' => false,
-            'message' => 'Error sending the code by email'
+            'message' => 'Error sending the code by email.',
+            'error' => $result
         ]);
     }
 }

@@ -19,13 +19,11 @@ function sendEmail($text, $emailDestination){
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-        $mail->Username = 'turborentals@gmail.com';                     //SMTP username
+        $mail->Username = 'rentmakina@gmail.com';                     //SMTP username
         $mail->Password = 'zahn jkma ryxn eknv';                               //SMTP password
-        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $mail->Port = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-        //Recipients
-        $mail->setFrom('turborentals@gmail.com', 'Turbo Rentals');
-        // $mail->addAddress('benivulaj@gmail.com');     //Add a recipient
+        $mail->setFrom('rentmakina@gmail.com', 'Turbo Rentals');
         $mail->addAddress($emailDestination);     //Add a recipient
 
         // $mail->addBCC('benivulaj@gmail.com');
@@ -40,14 +38,16 @@ function sendEmail($text, $emailDestination){
         if ($mail->send()) {
             return true; // Email sent successfully
         } else {
-            error_log("Email sending failed: " . $mail->ErrorInfo); // Log the error info
-            return false; // Email sending failed
+            $errorMessage = $mail->ErrorInfo ?: 'Unknown mailer error';
+            error_log("Email sending failed: " . $errorMessage); // Log the error info
+            return $errorMessage; // Email sending failed
         }
     } catch (Exception $e) {
         // Catch PHPMailer's exception and return the error message
-        error_log("Mailer Error: {$mail->ErrorInfo}"); // Log the error
+        $errorMessage = $mail->ErrorInfo ?: $e->getMessage();
+        error_log("Mailer Error: {$errorMessage}"); // Log the error
         // return "Mailer Error: {$mail->ErrorInfo}"; 
-        return false;
+        return $errorMessage;
     }
 }
 ?>

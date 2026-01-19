@@ -1,5 +1,10 @@
+const scriptUrl = document.currentScript
+    ? new URL(document.currentScript.src, window.location.href)
+    : new URL('sessionTimeout.js', window.location.href);
+const sessionTimeoutUrl = `${scriptUrl.origin}${scriptUrl.pathname.replace(/\/sessionTimeout\.js$/, '')}/sessionTimeout.php`;
+
 document.addEventListener('click', function() {
-    fetch('/Makina/registerLogin/sessionTimeout.php', {
+    fetch(sessionTimeoutUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' 
@@ -23,7 +28,7 @@ document.addEventListener('click', function() {
 setInterval(checkSessionTimeout, 10000); // Kontrollo çdo 10 sekond
 
 function checkSessionTimeout() {
-    fetch('/Makina/registerLogin/sessionTimeout.php', {
+    fetch(sessionTimeoutUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

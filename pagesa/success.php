@@ -36,7 +36,12 @@ if (isset($_GET['session_id'])) {
         $metadata = $session['metadata'] ?? [];
         $bookingIds = isset($metadata['booking_ids']) ? array_filter(explode(',', $metadata['booking_ids'])) : [];
         $userId = $_SESSION['id'] ?? (int)($metadata['user_id'] ?? 0);
-        $providerTransactionId = $session['payment_intent'] ?? $sessionId;
+        $paymentIntent = $session['payment_intent'] ?? null;
+        if (is_array($paymentIntent)) {
+            $providerTransactionId = $paymentIntent['id'] ?? $sessionId;
+        } else {
+            $providerTransactionId = $paymentIntent ?: $sessionId;
+        }
 
         foreach ($bookingIds as $bookingId) {
             $bookingId = (int)$bookingId;

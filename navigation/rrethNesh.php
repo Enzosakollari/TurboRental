@@ -338,7 +338,7 @@
                 <p>Flexible options with clear steps from checkout to confirmation.</p>
                 <div class="payment-grid">
                     <div class="payment-card">
-                        <img class="payment-logo" src="/Makina/images/logo.png" alt="Online payment">
+                        <img class="payment-logo" src="/Makina/images/stripe.png" alt="Stripe logo">
                         <strong>Online card</strong>
                         <span>Pay online at checkout using your card.</span>
                         <span>We place a refundable hold for the security deposit.</span>
