@@ -1,17 +1,21 @@
+// Car details modal logic (admin/profile view).
 let imagePaths;
             let imagePosition = 0;
             let imagePathLength = 0;
             const transmissionLabels = { automatik: "Automatic", manual: "Manual" };
+            // Map stored values to friendly display text.
             function normalizeLabel(value, map) {
                 if (!value) return value;
                 const key = value.toString().toLowerCase();
                 return map[key] || value;
             }
+            // Small helper to read a cookie by name.
             function getCookie(name) {
                 const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
                 return match ? match[2] : null;
             }
             
+            // Open the car modal and load the selected car data.
             function showCarDetails(){
 
                 const clickedElement = event.target.closest('.container');
@@ -23,13 +27,13 @@ let imagePaths;
                 document.getElementById("carDetailsModal").style.display = 'block';  // Display the modal
                 if(carId){
                   console.log(carId);
-                  // Create an object to hold the user data
+                  // Build request payload for the PHP endpoint.
                   const data = {
                       carId: carId,
                       action: "getCarDetails"
                   };
               
-                  // Send the data to the PHP backend using fetch()
+                  // Fetch car details and render them.
                   fetch("carDetails.php", {
                       method: "POST",
                       headers: {
@@ -40,6 +44,7 @@ let imagePaths;
                   .then(response => response.json())
                   .then(data => {
                       if(data.success){
+                          // Fill the modal with the response data.
                           document.getElementById("carName").innerText = data.name;
                           document.getElementById("carPrice").innerText = data.pricePerDay;
                           document.getElementById("carSeatingCapacity").innerText = data.seatingCapacity;
@@ -82,6 +87,7 @@ let imagePaths;
                 }
               
               
+                // Initialize date constraints for the booking fields.
                 const date = new Date();
                 document.getElementById("startDate").min = date.toISOString().split('T')[0];
                 date.setDate(date.getDate() + 1);
@@ -90,6 +96,7 @@ let imagePaths;
               }
 
               
+              // Close the modal via the "DIL" button or outside click.
               document.getElementById("dilButton").addEventListener("click", function(){
                 document.getElementById("carDetailsModal").style.display = "none";
 
@@ -99,6 +106,7 @@ let imagePaths;
                   document.getElementById("carDetailsModal").style.display = "none";
                 }
               };
+            // Enforce valid date ranges and reset invalid selections.
             document.getElementById("startDate").addEventListener("change", function(){
                 const date = new Date(document.getElementById("startDate").value);
                 if(document.getElementById("startDate").value == ""){
@@ -120,6 +128,7 @@ let imagePaths;
                 
             });
 
+            // Calculate total rental days whenever dates change.
             function calculateRentalDays() {
                 let startDate = new Date(document.getElementById("startDate").value);
                 let endDate = new Date(document.getElementById("endDate").value);
@@ -138,6 +147,7 @@ let imagePaths;
             
 
             
+            // Image carousel controls.
             document.getElementById("leftArrow").addEventListener('click', function(){
                 if(imagePathLength > 0 && imagePosition - 1 >= 0){
                     imagePosition--;

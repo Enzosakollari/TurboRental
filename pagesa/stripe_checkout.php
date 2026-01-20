@@ -22,56 +22,130 @@ if (empty($products)) {
     exit;
 }
 
-$bookingIds = [];
 $totalAmount = 0.0;
-
 foreach ($products as $product) {
-    $carId = $product['car_id'];
-    $startDate = $product['start_date'];
-    $endDate = $product['end_date'];
-    $totalPrice = $product['total_price'];
-
-    $stmt = $conn->prepare("INSERT INTO bookings (user_id, car_id, start_date, end_date, total_price, status, booking_date) VALUES (?, ?, ?, ?, ?, 'pending', NOW())");
-    $stmt->bind_param("iissd", $userId, $carId, $startDate, $endDate, $totalPrice);
-    $stmt->execute();
-    $bookingIds[] = $stmt->insert_id;
-    $stmt->close();
-
-    $totalAmount += (float)$totalPrice;
+    $totalAmount += (float)$product['total_price'];
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+    <?php require_once __DIR__ . '/../navigation/navigation.php'; ?>
 
-$payload = [
-    'mode' => 'payment',
-    'payment_method_types[]' => 'card',
-    'success_url' => STRIPE_SUCCESS_URL,
-    'cancel_url' => STRIPE_CANCEL_URL,
-    'line_items[0][price_data][currency]' => STRIPE_CURRENCY,
-    'line_items[0][price_data][product_data][name]' => 'Car Rental',
-    'line_items[0][price_data][unit_amount]' => (int)round($totalAmount * 100),
-    'line_items[0][quantity]' => 1,
-    'metadata[user_id]' => $userId,
-    'metadata[booking_ids]' => implode(',', $bookingIds),
-    'metadata[type]' => 'car'
-];
+    <div class="checkout-container">
+        <h1 class="hi">Checkout</h1>
+        <p class="total">Total: <?php echo htmlspecialchars(number_format($totalAmount, 2)); ?> <?php echo htmlspecialchars(strtoupper(STRIPE_CURRENCY)); ?></p>
 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/checkout/sessions');
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Authorization: Bearer ' . STRIPE_SECRET_KEY
-]);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+        <form id="payment-form">
+            <div class="field">
+                <label for="full-name" class="hi">Full name</label>
+                <input id="full-name" type="text" name="full_name" autocomplete="name" required>
+            </div>
+            <div class="field">
+                <label for="email" class="hi">Email</label>
+                <input id="email" type="email" name="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+                <label for="phone" class="hi">Phone</label>
+                <input id="phone" type="tel" name="phone" autocomplete="tel" required>
+            </div>
+            <div class="field">
+                <label class="hi">Card details</label>
+                <div id="card-element"></div>
+            </div>
+            <div id="card-errors" class="error" role="alert"></div>
+            <button id="submit-button" type="submit">Pay</button>
+        </form>
+    </div>
 
-$response = curl_exec($ch);
-$httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe(<?php echo json_encode(STRIPE_PUBLISHABLE_KEY); ?>);
+        const elements = stripe.elements();
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    color: '#1a1a1a',
+                    fontFamily: '"Segoe UI", Arial, sans-serif',
+                    fontSize: '16px',
+                    '::placeholder': { color: '#8c8c8c' }
+                }
+            }
+        });
+        card.mount('#card-element');
 
-$data = json_decode($response, true);
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const errorElement = document.getElementById('card-errors');
 
-if ($httpStatus >= 200 && $httpStatus < 300 && isset($data['url'])) {
-    header('Location: ' . $data['url']);
-    exit;
-}
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            errorElement.textContent = '';
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
 
-echo "Error creating Stripe session.";
+            let intentResponse;
+            try {
+                intentResponse = await fetch('/Makina/pagesa/create_payment_intent.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'type=car'
+                });
+            } catch (error) {
+                errorElement.textContent = 'Unable to connect to payment service.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay';
+                return;
+            }
+
+            let intentData = {};
+            try {
+                intentData = await intentResponse.json();
+            } catch (error) {
+                intentData = {};
+            }
+
+            if (!intentResponse.ok || !intentData.client_secret) {
+                errorElement.textContent = intentData.error || 'Unable to start payment.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay';
+                return;
+            }
+
+            const billingDetails = {
+                name: document.getElementById('full-name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim()
+            };
+
+            const result = await stripe.confirmCardPayment(intentData.client_secret, {
+                payment_method: {
+                    card: card,
+                    billing_details: billingDetails
+                }
+            });
+
+            if (result.error) {
+                errorElement.textContent = result.error.message || 'Payment failed.';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay';
+                return;
+            }
+
+            if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+                window.location.href = '/Makina/pagesa/success.php?payment_intent=' + encodeURIComponent(result.paymentIntent.id);
+                return;
+            }
+
+            errorElement.textContent = 'Payment processing did not complete.';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pay';
+        });
+    </script>
+    <script src="/Makina/registerLogin/sessionTimeout.js"></script>
+</body>
+</html>

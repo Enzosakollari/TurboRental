@@ -1,7 +1,9 @@
 <?php
+// Endpoint: returns car details or adds a car booking to cart depending on action.
 require_once __DIR__ . '/../config/db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
+// Action router from the request body.
 $actionCalled = $data['action'];
 // Database connection
 $conn = db_connect();
@@ -10,9 +12,7 @@ $conn = db_connect();
 if($actionCalled == "getCarDetails"){
     
 
-    // Create a MySQLi instance
-
-    
+    // Validate required input.
     if (empty($data['carId'])) {
         echo json_encode(["success" => false, "message" => "carId was not provided."]);
         exit();
@@ -20,6 +20,7 @@ if($actionCalled == "getCarDetails"){
     }
     $carId = $data['carId'];
 
+    // Load car data.
     $stmt = $conn->prepare("SELECT * FROM cars WHERE id = ?");
     $stmt->bind_param("i", $carId); 
     $stmt->execute();
@@ -34,12 +35,7 @@ if($actionCalled == "getCarDetails"){
         echo json_encode(['success' => false, 'message' => 'No vehicle found with this ID.']);
         exit;
     }
-    // $sql = "
-    //     SELECT image_path 
-    //     FROM car_images
-    //     WHERE car_id = ? 
-    //     ORDER BY image_order;
-    // ";
+    // Load car images in the display order.
     $stmt = $conn->prepare("SELECT image_path FROM car_images WHERE car_id = ? ORDER BY image_order");
     $stmt->bind_param("i", $carId);  // "i" means integer
     $stmt->execute();
@@ -50,6 +46,7 @@ if($actionCalled == "getCarDetails"){
         $images[] = $image_path;  // Store image_path in the images array
     }
 
+    // Return a JSON payload for the modal view.
     echo json_encode(["success" => true, 
                             "name" => $car['name'], 
                             "pricePerDay" => $car['price_per_day'], 
@@ -67,6 +64,7 @@ if($actionCalled == "getCarDetails"){
     
 }
 else if($actionCalled == "addToCart"){
+    // Ensure we have a logged-in user for cart operations.
     session_start();
 
     if (!isset($_SESSION['id'])) {
@@ -81,8 +79,10 @@ else if($actionCalled == "addToCart"){
         exit();
     }
 
+    // Calculate total price on the server for consistency.
     $totalPrice = $data['totalDays'] * $data['pricePerDay'];
 
+    // Prevent overlapping reservations (confirmed or recent pending).
     $checkStmt = $conn->prepare(
         "SELECT * FROM bookings 
          WHERE car_id = ? 
@@ -110,6 +110,7 @@ else if($actionCalled == "addToCart"){
         exit();
     }
 
+    // Add to cart for checkout.
     $stmt = $conn->prepare("INSERT INTO cart (user_id, car_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?)");
 
     // Bind parameters to the prepared statement
@@ -125,6 +126,7 @@ else if($actionCalled == "addToCart"){
     
 }
 
+// Clean up database resources.
 $stmt->close();
 $conn->close();
 

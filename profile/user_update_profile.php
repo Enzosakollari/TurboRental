@@ -1,11 +1,14 @@
 <?php
+// Endpoint: updates a user's profile details and optional profile image.
 require_once __DIR__ . '/../config/db.php';
 
+// Open database connection.
 $conn = db_connect();
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Only handle POST requests from the profile form.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId    = intval($_POST['id']);
     $username  = trim($_POST['username']);
@@ -17,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password  = $_POST['password'] ?? ''; 
     $fileInfo  = $_FILES['profile_picture'] ?? null;
 
+    // Basic input validation.
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Invalid email format.";
         exit;
@@ -31,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ? password_hash($password, PASSWORD_BCRYPT) 
         : null;
 
+    // Handle optional profile image upload.
     $target_file = null; 
     if ($fileInfo && $fileInfo['name']) {
         $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
@@ -52,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Prevent duplicate emails across users.
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
     $stmt->bind_param("si", $email, $userId);
     $stmt->execute();
@@ -63,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stmt->close();
 
+    // Build the UPDATE statement dynamically based on optional fields.
     $sql    = "UPDATE users SET username = ?, email = ?, full_name = ?, address = ?, phone_number = ?";
     $params = [$username, $email, $fullname, $address, $telephone];
     $types  = "sssss";
@@ -86,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param($types, ...$params);
 
+    // Execute and return a simple response.
     if ($stmt->execute()) {
         echo "Profile updated successfully.";
        
@@ -95,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
+// Close the database connection.
 $conn->close();
 ?>
 

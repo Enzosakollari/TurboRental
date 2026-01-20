@@ -1,4 +1,5 @@
 <?php
+// Endpoint: clears the current session and returns JSON.
 
 session_start();
 session_unset();    // Unset session variables

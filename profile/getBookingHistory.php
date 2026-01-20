@@ -1,9 +1,10 @@
 <?php
+// Endpoint: returns confirmed bookings for a user as JSON.
 require_once __DIR__ . '/../config/db.php';
 session_start();
 header('Content-Type: application/json');
 
-// Database connection
+// Open a database connection.
 $conn = db_connect();
 
 if ($conn->connect_error) {
@@ -11,18 +12,20 @@ if ($conn->connect_error) {
     exit();
 }
 
+// Read the raw JSON body.
 $rawData = file_get_contents('php://input');
 $data = json_decode($rawData, true);
 
-// Check if user ID is provided in the request body
+// Validate that a user ID was provided.
 if (!isset($data['userId'])) {
     echo json_encode(['success' => false, 'message' => 'User ID not provided']);
     exit();
 }
 
+// Cast to an int to keep the query safe.
 $userId = $data['userId'];
 
-// Fetch confirmed bookings for the user, joined with the car names, ordered by the most recent booking
+// Fetch confirmed bookings for the user, ordered by most recent.
 $query = "
     SELECT b.start_date, b.end_date, b.booking_date, b.total_price, c.name AS car_name
     FROM bookings b
@@ -35,6 +38,7 @@ $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Package results into a JSON response.
 if ($result->num_rows > 0) {
     $bookings = [];
     while ($row = $result->fetch_assoc()) {
@@ -45,6 +49,7 @@ if ($result->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'No confirmed bookings found for this user']);
 }
 
+// Clean up database resources.
 $stmt->close();
 $conn->close();
 ?>

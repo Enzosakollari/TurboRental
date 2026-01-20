@@ -1,5 +1,7 @@
+/* Profile page layout and modal styling. */
 @import url('/Makina/theme.css');
 
+/* Global page base styles. */
 body {
   min-height: 100vh;
   margin: 0;
@@ -8,6 +10,7 @@ body {
   color: var(--text);
 }
 
+/* Header spacing and titles. */
 #header {
   margin-bottom: 16px;
 }
@@ -19,6 +22,7 @@ body {
   text-align: center;
 }
 
+/* Table layout shared across lists and details. */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -43,6 +47,7 @@ th {
   font-weight: 600;
 }
 
+/* Form fields */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -60,6 +65,7 @@ img {
   cursor: pointer;
 }
 
+/* Buttons and custom upload control. */
 button,
 .custom-file-upload {
   border-radius: 999px;
@@ -82,6 +88,7 @@ button:hover,
   box-shadow: var(--shadow-md);
 }
 
+/* Card containers for each profile section. */
 #profile_list,
 #profile_admin,
 #profile_user,
@@ -98,6 +105,7 @@ button:hover,
   padding: 24px;
 }
 
+/* Default sections are hidden until toggled by JS. */
 #profile_list,
 #profile_admin,
 #profile_user,
@@ -109,6 +117,7 @@ button:hover,
   display: none;
 }
 
+/* Center sections and constrain width. */
 #profile_list,
 #profile_admin,
 #profile_user,
@@ -125,6 +134,7 @@ button:hover,
   transform: none;
 }
 
+/* Scroll area for long lists/details. */
 #profile_admin,
 #car_list_form,
 #motorcycle_list_form {
@@ -132,6 +142,7 @@ button:hover,
   overflow: auto;
 }
 
+/* Row hover cues in tables and forms. */
 .client-table tbody tr:hover,
 #profile_admin td:hover,
 #profile_user td:hover,
@@ -141,6 +152,7 @@ button:hover,
   background-color: rgba(255, 255, 255, 0.06);
 }
 
+/* Button groups. */
 .button-container {
   display: flex;
   gap: 12px;
@@ -153,6 +165,7 @@ button:hover,
   margin-top: 16px;
 }
 
+/* Admin menu heading. */
 .admin-title {
   font-size: 2rem;
   color: #fff;
@@ -164,18 +177,21 @@ button:hover,
   border: 1px solid var(--border);
 }
 
+/* Small avatar sizing. */
 #profileImage {
   width: 48px;
   height: 48px;
   border-radius: 50%;
 }
 
+/* Transparent form wrapper (when needed). */
 #form {
   background: transparent;
   box-shadow: none;
   padding: 0;
 }
 
+/* Generic modal shell. */
 .modal {
   display: none;
   position: fixed;
@@ -188,6 +204,7 @@ button:hover,
   padding: 24px;
 }
 
+/* Shared car/motorcycle detail modal layout. */
 .carDetails {
   width: min(980px, 92vw);
   max-height: 85vh;
@@ -203,6 +220,7 @@ button:hover,
   gap: 20px;
 }
 
+/* Image area layout. */
 #imageContainer,
 #motorcycleImageContainer {
   display: flex;
@@ -211,6 +229,7 @@ button:hover,
   gap: 10px;
 }
 
+/* Image sizing. */
 #carImage,
 #motorcycleImage {
   width: min(420px, 70vw);
@@ -219,6 +238,7 @@ button:hover,
   box-shadow: var(--shadow-sm);
 }
 
+/* Detail text column. */
 #detailsContainer,
 #motorcycleDetailsContainer {
   display: flex;
@@ -231,12 +251,14 @@ button:hover,
   color: var(--muted);
 }
 
+/* Mobile layout tweak. */
 @media (max-width: 900px) {
   .carDetails {
     grid-template-columns: 1fr;
   }
 }
 
+/* Booking history modal. */
 .bokingHistory {
   width: min(900px, 92vw);
   max-height: 80vh;

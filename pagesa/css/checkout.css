@@ -1,88 +1,94 @@
-@import url('/Makina/theme.css');
-
-/* General Reset */
-body, h1, h2, h3, p, a, form {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    box-sizing: border-box;
-}
-
 body {
-    background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
-    color: var(--text);
-    line-height: 1.6;
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #111317;
+    color: #1a1a1a;
 }
 
-/* Checkout Container */
-#checkout-container {
-    width: 80%;
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: var(--surface);
-    padding: 30px;
-    box-shadow: var(--shadow-md);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
+.checkout-container {
+    max-width: 420px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
-#checkout-container h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    color: var(--text);
-    margin-bottom: 30px;
+.checkout-container h1 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #111111 !important;
 }
 
-/* Form Groups */
-.form-group {
-    margin-bottom: 20px;
+.hi {
+    color: black;
 }
 
-.form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
+.total {
+    margin: 0 0 20px;
+    font-weight: 600;
+    color: #444444 !important;
 }
 
-.form-group input,
-.form-group select {
+.field {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    color: #2a2a2a !important;
+    font-size: 14px;
+    opacity: 1 !important;
+}
+
+.field input {
+    padding: 10px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #111111;
+    background: #ffffff;
+}
+
+.field input::placeholder {
+    color: #8c8c8c;
+}
+
+#card-element {
+    padding: 10px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.checkout-container,
+.checkout-container h1,
+.checkout-container p,
+.checkout-container label {
+    text-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.error {
+    color: #b00020;
+    min-height: 18px;
+    margin-bottom: 12px;
+}
+
+#submit-button {
     width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.04);
-    color: var(--text);
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color: var(--accent-2);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(15, 139, 157, 0.2);
-}
-
-/* Submit Button */
-#checkout-button {
-    width: 100%;
-    padding: 15px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: white;
+    padding: 12px 16px;
+    background: #111111;
+    color: #ffffff;
     border: none;
-    border-radius: 999px;
-    font-size: 1.2rem;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: var(--shadow-sm);
 }
 
-#checkout-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-@media (max-width: 768px) {
-    #checkout-container {
-        width: 90%;
-    }
+#submit-button:disabled {
+    background: #666666;
+    cursor: not-allowed;
 }
