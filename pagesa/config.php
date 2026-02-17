@@ -7,8 +7,8 @@ if (!$baseUrl) {
 }
 $baseUrl = rtrim($baseUrl, '/');
 
-define('STRIPE_SECRET_KEY', 'sk_test_51SqC67J6vaRj5mmwQSAM2GLdiVzzAGs93XxXcPtcqJgVUmOCiv1s68s4e3S7K4SSZosBqc7BMD93jIthFekeewWp00OLOwljZb'); // Replace with your Stripe secret key
-define('STRIPE_PUBLISHABLE_KEY', 'pk_test_51SqC67J6vaRj5mmwunjR7xXXlklyEMy2oxkAv243MvpgXscVqC6cpTpttRIitKHC12NqYf8kiLLDyeRtrVKvOYNq00LwEPuC68'); // Replace with your Stripe publishable key
+define('STRIPE_SECRET_KEY', 'sk_test_51SqC67J6vaRj5mmwQSAM2GLdiVzzAGs93XxXcPtcqJgVUmOCiv1s68s4e3S7K4SSZosBqc7BMD93jIthFekeewWp00OLOwljZb'); 
+define('STRIPE_PUBLISHABLE_KEY', 'pk_test_51SqC67J6vaRj5mmwunjR7xXXlklyEMy2oxkAv243MvpgXscVqC6cpTpttRIitKHC12NqYf8kiLLDyeRtrVKvOYNq00LwEPuC68'); 
 define('STRIPE_CURRENCY', 'usd');
 
 define('STRIPE_SUCCESS_URL', $baseUrl . '/Makina/pagesa/success.php?session_id={CHECKOUT_SESSION_ID}');

@@ -1,5 +1,5 @@
 <?php
-// Profile page: shows admin tools or user profile based on role.
+
 require_once __DIR__ . '/../config/bootstrap.php';
 $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
 ?>
@@ -18,8 +18,8 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
     <?php include __DIR__ . '/../navigation/navigation.php'; ?>
 
 
-     <!-- here we will  display the admin menu only if we have an admin session 
-      otherwise we will hide it using css -->
+     
+
     <div id="menue_admin" <?php echo $isAdmin ? '' : 'style="display: none;"'; ?>>
         <h1 class="admin-title">Menu</h1>
         <div class="button-container">
@@ -29,11 +29,11 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
         </div>
     </div>
 
-<!-- here we will display the list of normal users or otherwise known as customers -->
+
     <div id="profile_list">
         <h1 class="profile-title">Customer List</h1>
-        <!-- here we create a table to get the data and display it for the users 
-          -->
+        
+
         <table class="client-table">
             <thead>
                 <tr>
@@ -43,14 +43,14 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
                 </tr>
             </thead>
             <tbody id="body-profile-list">
-<!-- here we will get the data and display it through some js logic that we have in profile.js
- populatetable -->
+
+
         </tbody>
         </table>
     </div>
 
-    <!-- here we will do the same logic but this time is for the user details 
-     so we make a tbl and through profile.js we fetch the data of specific customers -->
+    
+
         <div id="profile_admin">
             <h1 style="text-align: center;">Customer Details</h1>
             <table>
@@ -61,13 +61,13 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
                     </tr>
                 </thead>
                 <tbody id="body-profile-details">
-<!-- here we will get the data read and fill the table dynamically  -->
+
             </tbody>
             </table>
         </div>
 
-<!-- in this section we make it so we show it only to non admins so if the role is admin u dont get to see this section 
-  -->
+
+
         <div id="profile_user" <?php echo $isAdmin ? 'style="display: none;"' : ''; ?>>
             <h1 style="text-align: center;">Profile Details</h1>
             <table>
@@ -78,12 +78,12 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
                     </tr>
                 </thead>
                 <tbody id="body-profile-details-user">
-<!--here this part is empty at load time but gets filled by JavaScript -->
+
             </tbody>
             </table>
         </div>
 
-<!-- here its the vechile list the admin gets  -->
+
         <div id="car_list_form">
             <h1 class="profile-title">Vehicle List</h1>
             <table>
@@ -99,7 +99,7 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
                 </tbody>
             </table>
         </div>
-        <!-- the section for the motorcycle list -->
+        
         <div id="motorcycle_list_form">
             <h1 class="profile-title">Motorcycle List</h1>
             <table>
@@ -115,10 +115,10 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
             </table>
         </div>
 
-        <!-- here we will make a basic form to collect the car fields and then we go to 
-         profile.js where we run the function submitNewCar  which will validate the input 
-         ten build a FormData payload and will send a POST request using AJAX to the lets
-         say backend part which is admin_addCar.php-->
+        
+
+
+
         <div id="car_details">
             <h1 style="text-align: center;">Add Vehicle</h1>
             <table>
@@ -183,9 +183,9 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
             </table>
         </div>
 
-<!-- here we have almost the same method we get the info here in the form then send it over
- to submitNewCar which forms the payload and makes a post request through ajax 
- and the data gets validates then its placed on the db  -->
+
+
+
         <div id="motorcycle_details">
             <h1 style="text-align: center;">Add Motorcycle</h1>
             <table>
@@ -252,7 +252,7 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
         </div>
 
         
-        <!-- Modal: car detail view -->
+        
         <div id="carDetailsModal" class="modal">
             <div class="carDetails">
               <div id="imageContainer">
@@ -331,7 +331,7 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
       
           </div>
         </div>
-        <!-- Modal: motorcycle detail view -->
+        
         <div id="motorcycleDetailsModal" class="modal">
             <div class="carDetails">
               <div id="motorcycleImageContainer">
@@ -392,7 +392,7 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
       
           </div>
         </div>
-        <!-- Modal: booking history -->
+        
         <div id="bookingHistoryModal" class="modal">
             <div id="bokingHistory" class="bokingHistory">
                 <h2>Booking history</h2>
@@ -403,13 +403,13 @@ $isAdmin = isset($_SESSION['role_id']) && (int)$_SESSION['role_id'] === 1;
         
 
 </body>
-<!-- Car/motorcycle detail modals -->
+
 <script src="../makinat/carDetails.js"></script>
 <script src="./motorcycleDetails.js"></script>
 
-<!-- Profile page behavior -->
+
 <script src="profile.js"></script>
-<!-- Session timeout handling -->
+
 <script src="../registerLogin/sessionTimeout.js"></script>
 
 

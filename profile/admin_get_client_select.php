@@ -1,10 +1,9 @@
 <?php
-// Admin endpoint: returns full profile details for a specific user.
 require_once __DIR__ . '/../config/db.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Open database connection.
+
 $conn = db_connect();
 
 if ($conn->connect_error) {
@@ -13,7 +12,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Validate the ID parameter.
+
 $idx = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if ($idx === null) {
@@ -23,7 +22,7 @@ if ($idx === null) {
     exit;
 }
 
-// Fetch the full profile record for this user.
+
 $sql = "SELECT id, 
                username, 
                email, 
@@ -39,7 +38,7 @@ $sql = "SELECT id,
         WHERE id = ?";
 $stmt = $conn->prepare($sql);
 
-// Handle SQL preparation errors.
+
 if ($stmt === false) {
     http_response_code(500);
     echo json_encode(["error" => "Failed to prepare SQL statement"]);
@@ -50,7 +49,7 @@ $stmt->bind_param("i", $idx);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
-// Return a 404 if the user does not exist.
+
 if (!$user) {
     http_response_code(404); 
     echo json_encode(["error" => "No user found with the given ID"]);
@@ -59,7 +58,6 @@ if (!$user) {
     echo json_encode($user);
 }
 
-// Clean up database resources.
 $stmt->close();
 $conn->close();
 ?>

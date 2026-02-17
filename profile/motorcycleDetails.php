@@ -1,32 +1,31 @@
 <?php
-// Endpoint: returns motorcycle details or adds a motorcycle booking to cart.
 require_once __DIR__ . '/../config/db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Action router from the request body.
+
 $actionCalled = $data['action'];
-// Database connection
+
 $conn = db_connect();
 
 
-if($actionCalled == "getCarDetails"){
+if($actionCalled == "getMotorcycleDetails"){
     
 
-    // Validate required input.
-    if (empty($data['carId'])) {
-        echo json_encode(["success" => false, "message" => "carId was not provided."]);
+    
+    if (empty($data['motorcycleId'])) {
+        echo json_encode(["success" => false, "message" => "motorcycleId was not provided."]);
         exit();
         
     }
-    $carId = $data['carId'];
+    $motorcycleId = $data['motorcycleId'];
 
     $stmt = $conn->prepare("SELECT * FROM motorcycles WHERE id = ?");
-    $stmt->bind_param("i", $carId); 
+    $stmt->bind_param("i", $motorcycleId); 
     $stmt->execute();
     $result = $stmt->get_result();
 
     if($result->num_rows > 0) {
-        $car = $result->fetch_assoc();
+        $motorcycle = $result->fetch_assoc();
 
         
     }
@@ -34,36 +33,36 @@ if($actionCalled == "getCarDetails"){
         echo json_encode(['success' => false, 'message' => 'No motorcycle found with this ID.']);
         exit;
     }
-    // Load motorcycle images in the display order.
+    
     $stmt = $conn->prepare("SELECT image_path FROM motorcycle_images WHERE motorcycle_id = ? ORDER BY image_order");
-    $stmt->bind_param("i", $carId);  // "i" means integer
+    $stmt->bind_param("i", $motorcycleId);  
     $stmt->execute();
-    // Bind the result to a variable
+    
     $stmt->bind_result($image_path);
     $images = [];
     while ($stmt->fetch()) {
-        $images[] = $image_path;  // Store image_path in the images array
+        $images[] = $image_path;  
     }
 
-    // Return a JSON payload for the modal view.
+    
     echo json_encode(["success" => true, 
-                            "name" => $car['name'], 
-                            "pricePerDay" => $car['price_per_day'], 
-                            "fuel" => $car['fuel'], 
-                            "engineCc" => $car['engine_cc'],
-                            "transmission" => $car['transmission'], 
-                            "year" => $car['year'], 
-                            "abs" => $car['abs'], 
-                            "color" => $car['color'], 
-                            "type" => $car['type'],
-                            "weightKg" => $car['weight_kg'],
-                            "seatHeightMm" => $car['seat_height_mm'],
+                            "name" => $motorcycle['name'], 
+                            "pricePerDay" => $motorcycle['price_per_day'], 
+                            "fuel" => $motorcycle['fuel'], 
+                            "engineCc" => $motorcycle['engine_cc'],
+                            "transmission" => $motorcycle['transmission'], 
+                            "year" => $motorcycle['year'], 
+                            "abs" => $motorcycle['abs'], 
+                            "color" => $motorcycle['color'], 
+                            "type" => $motorcycle['type'],
+                            "weightKg" => $motorcycle['weight_kg'],
+                            "seatHeightMm" => $motorcycle['seat_height_mm'],
                             'images' => $images]);
     exit;
     
 }
 else if($actionCalled == "addToCart"){
-    // Ensure we have a logged-in user for cart operations.
+    
     session_start();
 
     if (!isset($_SESSION['id'])) {
@@ -73,15 +72,15 @@ else if($actionCalled == "addToCart"){
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (empty($data['carId']) || empty($data['startDate']) || empty($data['endDate']) || empty($data['totalDays']) || empty($data['pricePerDay'])) {
+    if (empty($data['motorcycleId']) || empty($data['startDate']) || empty($data['endDate']) || empty($data['totalDays']) || empty($data['pricePerDay'])) {
         echo json_encode(["success" => false, "message" => "Missing required information."]);
         exit();
     }
 
-    // Calculate total price on the server for consistency.
+    
     $totalPrice = $data['totalDays'] * $data['pricePerDay'];
 
-    // Prevent overlapping reservations (confirmed or recent pending).
+    
     $checkStmt = $conn->prepare(
         "SELECT * FROM motorcycle_bookings 
          WHERE motorcycle_id = ? 
@@ -93,7 +92,7 @@ else if($actionCalled == "addToCart"){
     );
     $checkStmt->bind_param(
         "issss", 
-        $data['carId'], 
+        $data['motorcycleId'], 
         $data['startDate'], 
         $data['endDate'], 
         $data['startDate'], 
@@ -109,11 +108,11 @@ else if($actionCalled == "addToCart"){
         exit();
     }
 
-    // Add to cart for checkout.
+    
     $stmt = $conn->prepare("INSERT INTO motorcycle_cart (user_id, motorcycle_id, start_date, end_date, total_price) VALUES (?, ?, ?, ?, ?)");
 
-    // Bind parameters to the prepared statement
-    $stmt->bind_param("iissi", $_SESSION['id'],  $data['carId'], $data['startDate'], $data['endDate'], $totalPrice);
+    
+    $stmt->bind_param("iissi", $_SESSION['id'],  $data['motorcycleId'], $data['startDate'], $data['endDate'], $totalPrice);
     
     if ($stmt->execute()){
         echo json_encode(["success" => true, "message" => "Added to cart."]);
@@ -125,7 +124,6 @@ else if($actionCalled == "addToCart"){
     
 }
 
-// Clean up database resources.
 $stmt->close();
 $conn->close();
 

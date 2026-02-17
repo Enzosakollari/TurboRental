@@ -1,4 +1,4 @@
-import { cars, fetchAndDisplayCars,search, paginateCars, setCars, restorePagination, getCarDetails } from "./main.js?v=3";
+import { motorcycles, fetchAndDisplayMotorcycles, search, paginateMotorcycles, setMotorcycles, restorePagination, getMotorcycleDetails } from "./main.js?v=3";
 
 export let filters = {
   fuelType: [],
@@ -40,7 +40,7 @@ var removeBtn = document.getElementById("removeBtn");
 
 applyBtn.onclick = async ()=>{
   restorePagination(); 
-  paginateCars(search)
+  paginateMotorcycles(search)
   modal.style.display = "none";
 };
 
@@ -59,5 +59,5 @@ function removeFilters() {
   filters.fuelType = [];
   filters.price = '';
   filters.transmission = '';
-  fetchAndDisplayCars();
+  fetchAndDisplayMotorcycles();
 }

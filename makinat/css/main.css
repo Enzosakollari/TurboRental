@@ -232,7 +232,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #f1f1f1; */
+  
   padding: 20px 0;
 }
 
@@ -292,7 +292,7 @@ main {
   width: fit-content;
   border-radius: 15px;
   background-color: white;
-  /* width: 1200px; */
+  
   padding: 40px;
   padding-left: 0px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

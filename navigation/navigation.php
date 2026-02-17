@@ -2,39 +2,39 @@
 require_once __DIR__ . '/../config/db.php';
 
 
-// Check if there is an ID in the session
-$userImage = '/Makina/images/profileImage.jpg';  // Default profile image
+
+$userImage = '/Makina/images/profileImage.jpg';  
 
 if (isset($_SESSION['id'])) {
-    // Connect to the database (adjust your database connection parameters)
-    // Create connection
+    
+    
     $conn = db_connect();
 
-    // Check connection
+    
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    // include 'header.php';
+    
 
 
-    // Get the user ID from the session
+    
     $userId = $_SESSION['id'];
 
-    // Prepare and execute the query to get the user's profile image
+    
     $sql = "SELECT profile_image FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $userId); // Bind the user ID to the query
+    $stmt->bind_param("i", $userId); 
     $stmt->execute();
-    $stmt->bind_result($profileImage); // Bind the result (image path)
+    $stmt->bind_result($profileImage); 
 
-    // Check if the image is found
+    
     if ($stmt->fetch() && !empty($profileImage)) {
-        // If a profile image is found, update the profile image path
+        
         $userImage = "/Makina/images/" . $profileImage;
     }
         
 
-    // Close the database connection
+    
     $stmt->close();
     $conn->close();
 }
@@ -96,10 +96,10 @@ if (isset($_SESSION['id'])) {
                 console.log(userId);
 
                 if (!userId) {
-                    window.location.href = "/Makina/registerLogin/login.html";  // Redirect to login page
+                    window.location.href = "/Makina/registerLogin/login.html";  
                     
                 } else {
-                    window.location.href = "/Makina/profile/profile.php";  // Redirect to profile page
+                    window.location.href = "/Makina/profile/profile.php";  
                 }
             });
 

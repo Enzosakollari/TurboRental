@@ -1,9 +1,9 @@
-const apiUrl = '/Makina/motorcycles/main.php'; // Adjust this path to your file location
+const apiUrl = '/Makina/motorcycles/main.php';
 import { filters } from "./filters.js?v=3";
-export let cars = [];
-let filteredCars = [];
+export let motorcycles = [];
+let filteredMotorcycles = [];
 let currentPage = 1;
-const carsPerPage = 9; 
+const motorcyclesPerPage = 9;
 let totalPages = 0;
 let userImage;
 let userId;
@@ -17,8 +17,8 @@ function normalizeLabel(value, map) {
   return map[key] || value;
 }
 
-// Function to fetch car details with filters and pagination
-export async function getCarDetails(filters = {},search='', page = 1) {
+
+export async function getMotorcycleDetails(filters = {}, search = '', page = 1) {
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -29,59 +29,59 @@ export async function getCarDetails(filters = {},search='', page = 1) {
         ...filters,
         search,
         page, 
-        carsPerPage 
+        motorcyclesPerPage
       }),
     });
 
     const data = await response.json();
 
     if (data.success) {
-      cars = data.cars;
+      motorcycles = data.motorcycles;
       totalPages = data.totalPages;
       userId=data.userId;
   
-      return cars;
+      return motorcycles;
     } else {
       console.log("Error:", data.message);
       return [];
     }
   } catch (error) {
-    console.error("Error fetching car details:", error);
+    console.error("Error fetching motorcycle details:", error);
     return [];
   }
 }
 
-export function setCars(t){
-  cars=t;
+export function setMotorcycles(t){
+  motorcycles=t;
 }
 
 export function restorePagination(){
   currentPage=1;
 }
 
-export function displayCars(carsToDisplay) {
+export function displayMotorcycles(motorcyclesToDisplay) {
   const doc = document.querySelector('main');
   let html = '';
-  carsToDisplay.forEach(car => {
-    const imageName = car.image_path;
+  motorcyclesToDisplay.forEach(motorcycle => {
+    const imageName = motorcycle.image_path;
     const imagePath = imageName && imageName !== 'null' && imageName !== 'NULL'
       ? `/Makina/images/motorcycles/${imageName}`
       : '/Makina/images/default.jpg';
-    const fuelLabel = normalizeLabel(car.fuel, fuelLabels);
-    const transmissionLabel = normalizeLabel(car.transmission, transmissionLabels);
+    const fuelLabel = normalizeLabel(motorcycle.fuel, fuelLabels);
+    const transmissionLabel = normalizeLabel(motorcycle.transmission, transmissionLabels);
     html += `
-      <div class="container" id=${car.id} onclick="showCarDetails()">
+      <div class="container" id=${motorcycle.id} onclick="showMotorcycleDetails()">
         <div class="relative">
           <div class="img-container">
-            <img src="${imagePath}" alt="${car.name}" />
+            <img src="${imagePath}" alt="${motorcycle.name}" />
           </div>
-          <p class="year">${car.year} / $${car.price_per_day}</p>
+          <p class="year">${motorcycle.year} / $${motorcycle.price_per_day}</p>
         </div>
         <div class="description">
-          <p class="car-name">${car.name}</p>
-          <div class="car-details-container">
+          <p class="motorcycle-name">${motorcycle.name}</p>
+          <div class="motorcycle-details-container">
             <i class="bi bi-lightning-charge-fill">
-              <span class="text">${car.engine_cc} cc</span>
+              <span class="text">${motorcycle.engine_cc} cc</span>
             </i>
             <i class="bi bi-fuel-pump-fill">
               <span class="text">${fuelLabel}</span>
@@ -106,7 +106,7 @@ export function updatePagination() {
 
   pageLinksContainer.innerHTML = "";
 
-  const visiblePages = 4; // Number of visible page links
+  const visiblePages = 4; 
   const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
   const endPage = Math.min(totalPages, startPage + visiblePages - 1);
 
@@ -122,7 +122,7 @@ export function updatePagination() {
     firstPageLink.addEventListener("click", (event) => {
       event.preventDefault();
       currentPage = 1;
-      paginateCars(search, currentPage);
+      paginateMotorcycles(search, currentPage);
     });
     pageLinksContainer.appendChild(firstPageLink);
 
@@ -142,7 +142,7 @@ export function updatePagination() {
     pageLink.addEventListener("click", (event) => {
       event.preventDefault();
       currentPage = i;
-      paginateCars(search, currentPage);
+      paginateMotorcycles(search, currentPage);
     });
 
     pageLinksContainer.appendChild(pageLink);
@@ -161,7 +161,7 @@ export function updatePagination() {
     lastPageLink.addEventListener("click", (event) => {
       event.preventDefault();
       currentPage = totalPages;
-      paginateCars(search, currentPage);
+      paginateMotorcycles(search, currentPage);
     });
     pageLinksContainer.appendChild(lastPageLink);
   }
@@ -172,31 +172,31 @@ export function updatePagination() {
 
 
 
-export async function paginateCars(search='',page=1) {
+export async function paginateMotorcycles(search = '', page = 1) {
 
-  await getCarDetails(filters,search,currentPage);
+  await getMotorcycleDetails(filters, search, currentPage);
   updatePagination();
-  displayCars(cars);
+  displayMotorcycles(motorcycles);
 }
 
-export async function fetchAndDisplayCars(filters = {}) {
-  await getCarDetails(filters, currentPage);
-  filteredCars = [];
-  paginateCars();
+export async function fetchAndDisplayMotorcycles(filters = {}) {
+  await getMotorcycleDetails(filters, currentPage);
+  filteredMotorcycles = [];
+  paginateMotorcycles();
 }
 
 document.getElementById("prev-btn").addEventListener("click", async () => {
   if (currentPage > 1) {
     currentPage--;
 
-    await paginateCars(search,currentPage);
+    await paginateMotorcycles(search, currentPage);
   }
 });
 
 document.getElementById("next-btn").addEventListener("click", async () => {
   if (currentPage < totalPages) {
     currentPage++;
-    await paginateCars(search,currentPage);
+    await paginateMotorcycles(search, currentPage);
   }
 });
 
@@ -207,7 +207,7 @@ document.querySelector('.search-icon').addEventListener('click', () => {
   search = document.getElementById('search-input').value;
  
   restorePagination();
-  paginateCars(search);
+  paginateMotorcycles(search);
 });
 
 document.getElementById('search-input').addEventListener('keydown', (event) => {
@@ -215,20 +215,20 @@ document.getElementById('search-input').addEventListener('keydown', (event) => {
     search = document.getElementById('search-input').value;
    
     restorePagination();
-    paginateCars(search);
+    paginateMotorcycles(search);
     
   }
 });
 
 document.querySelector('.search-field').addEventListener('input', (event) => {
   if (event.target.value === '') {
-    paginateCars();
+    paginateMotorcycles();
     search='';
   }
 });
 
 
-fetchAndDisplayCars();
+fetchAndDisplayMotorcycles();
 
 document.getElementById("redirectToCart").addEventListener("click", function(){
   window.location.href = "/Makina/pagesa/motorcycleCart.php";

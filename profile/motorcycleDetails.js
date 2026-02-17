@@ -1,23 +1,23 @@
-// Motorcycle details modal logic (admin/profile view).
+
 let motorcycleImagePaths;
 let motorcycleImagePosition = 0;
 let motorcycleImageLength = 0;
 const motorcycleTransmissionLabels = { automatik: "Automatic", manual: "Manual" };
 
-// Map stored values to friendly display text.
+
 function normalizeMotorcycleLabel(value, map) {
     if (!value) return value;
     const key = value.toString().toLowerCase();
     return map[key] || value;
 }
 
-// Small helper to read a cookie by name.
+
 function getMotorcycleCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : null;
 }
 
-// Open the motorcycle modal and load the selected bike data.
+
 function showMotorcycleDetails() {
     const clickedElement = event.target.closest('.container');
     const motorcycleId = clickedElement.id;
@@ -26,13 +26,13 @@ function showMotorcycleDetails() {
     motorcycleImagePosition = 0;
     document.getElementById("motorcycleDetailsModal").style.display = 'block';
     if (motorcycleId) {
-        // Build request payload for the PHP endpoint.
+        
         const data = {
-            carId: motorcycleId,
-            action: "getCarDetails"
+            motorcycleId: motorcycleId,
+            action: "getMotorcycleDetails"
         };
 
-        // Fetch motorcycle details and render them.
+        
         fetch("motorcycleDetails.php", {
             method: "POST",
             headers: {
@@ -43,7 +43,7 @@ function showMotorcycleDetails() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Fill the modal with the response data.
+                
                 document.getElementById("motorcycleName").innerText = data.name;
                 document.getElementById("motorcyclePrice").innerText = data.pricePerDay;
                 document.getElementById("motorcycleEngineCc").innerText = data.engineCc;
@@ -72,7 +72,7 @@ function showMotorcycleDetails() {
     }
 }
 
-// Close the modal via the button or outside click.
+
 document.getElementById("motorcycleCloseButton").addEventListener("click", function() {
     document.getElementById("motorcycleDetailsModal").style.display = "none";
 });
@@ -83,7 +83,7 @@ window.addEventListener("click", function(event) {
     }
 });
 
-// Image carousel controls.
+
 document.getElementById("motoLeftArrow").addEventListener('click', function() {
     if (motorcycleImageLength > 0 && motorcycleImagePosition - 1 >= 0) {
         motorcycleImagePosition--;
@@ -98,7 +98,7 @@ document.getElementById("motoRightArrow").addEventListener('click', function() {
     }
 });
 
-// Admin: delete the motorcycle currently shown in the modal.
+
 document.getElementById("motorcycleDeleteButton").addEventListener("click", function() {
     const motorcycleId = getMotorcycleCookie('motorcycle_id');
 

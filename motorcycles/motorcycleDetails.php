@@ -89,21 +89,21 @@ function review_gate($conn, $motorcycleId, $userId, $roleId) {
     return ["canReview" => true, "message" => ""];
 }
 
-if ($actionCalled == "getCarDetails") {
-    if (empty($data['carId'])) {
-        echo json_encode(["success" => false, "message" => "carId was not provided."]);
+if ($actionCalled == "getMotorcycleDetails") {
+    if (empty($data['motorcycleId'])) {
+        echo json_encode(["success" => false, "message" => "motorcycleId was not provided."]);
         exit();
     }
 
-    $carId = (int)$data['carId'];
+    $motorcycleId = (int)$data['motorcycleId'];
 
     $stmt = prepare_or_fail($conn, "SELECT * FROM motorcycles WHERE id = ?");
-    $stmt->bind_param("i", $carId);
+    $stmt->bind_param("i", $motorcycleId);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $car = $result->fetch_assoc();
+        $motorcycle = $result->fetch_assoc();
     } else {
         echo json_encode(['success' => false, 'message' => 'No motorcycle found with this ID.']);
         exit;
@@ -111,7 +111,7 @@ if ($actionCalled == "getCarDetails") {
     $stmt->close();
 
     $stmt = prepare_or_fail($conn, "SELECT image_path FROM motorcycle_images WHERE motorcycle_id = ? ORDER BY image_order");
-    $stmt->bind_param("i", $carId);
+    $stmt->bind_param("i", $motorcycleId);
     $stmt->execute();
     $stmt->bind_result($image_path);
     $images = [];
@@ -120,24 +120,24 @@ if ($actionCalled == "getCarDetails") {
     }
     $stmt->close();
 
-    $reviewsPayload = fetch_reviews($conn, $carId);
+    $reviewsPayload = fetch_reviews($conn, $motorcycleId);
     $userId = $_SESSION['id'] ?? null;
     $roleId = isset($_SESSION['role_id']) ? (int)$_SESSION['role_id'] : null;
-    $reviewGate = review_gate($conn, $carId, $userId, $roleId);
+    $reviewGate = review_gate($conn, $motorcycleId, $userId, $roleId);
 
     echo json_encode([
         "success" => true,
-        "name" => $car['name'],
-        "pricePerDay" => $car['price_per_day'],
-        "fuel" => $car['fuel'],
-        "engineCc" => $car['engine_cc'],
-        "transmission" => $car['transmission'],
-        "year" => $car['year'],
-        "abs" => $car['abs'],
-        "color" => $car['color'],
-        "type" => $car['type'],
-        "weightKg" => $car['weight_kg'],
-        "seatHeightMm" => $car['seat_height_mm'],
+        "name" => $motorcycle['name'],
+        "pricePerDay" => $motorcycle['price_per_day'],
+        "fuel" => $motorcycle['fuel'],
+        "engineCc" => $motorcycle['engine_cc'],
+        "transmission" => $motorcycle['transmission'],
+        "year" => $motorcycle['year'],
+        "abs" => $motorcycle['abs'],
+        "color" => $motorcycle['color'],
+        "type" => $motorcycle['type'],
+        "weightKg" => $motorcycle['weight_kg'],
+        "seatHeightMm" => $motorcycle['seat_height_mm'],
         "images" => $images,
         "reviews" => $reviewsPayload["reviews"],
         "reviewSummary" => $reviewsPayload["summary"],
@@ -146,16 +146,16 @@ if ($actionCalled == "getCarDetails") {
     ]);
     exit;
 } elseif ($actionCalled == "getReviews") {
-    if (empty($data['carId'])) {
-        echo json_encode(["success" => false, "message" => "carId was not provided."]);
+    if (empty($data['motorcycleId'])) {
+        echo json_encode(["success" => false, "message" => "motorcycleId was not provided."]);
         exit();
     }
 
-    $carId = (int)$data['carId'];
-    $reviewsPayload = fetch_reviews($conn, $carId);
+    $motorcycleId = (int)$data['motorcycleId'];
+    $reviewsPayload = fetch_reviews($conn, $motorcycleId);
     $userId = $_SESSION['id'] ?? null;
     $roleId = isset($_SESSION['role_id']) ? (int)$_SESSION['role_id'] : null;
-    $reviewGate = review_gate($conn, $carId, $userId, $roleId);
+    $reviewGate = review_gate($conn, $motorcycleId, $userId, $roleId);
 
     echo json_encode([
         "success" => true,
@@ -171,12 +171,12 @@ if ($actionCalled == "getCarDetails") {
         exit();
     }
 
-    if (empty($data['carId']) || empty($data['rating']) || empty($data['reviewText'])) {
+    if (empty($data['motorcycleId']) || empty($data['rating']) || empty($data['reviewText'])) {
         echo json_encode(["success" => false, "message" => "Missing required information."]);
         exit();
     }
 
-    $carId = (int)$data['carId'];
+    $motorcycleId = (int)$data['motorcycleId'];
     $rating = (int)$data['rating'];
     $reviewText = trim($data['reviewText']);
 
@@ -192,7 +192,7 @@ if ($actionCalled == "getCarDetails") {
 
     $userId = (int)$_SESSION['id'];
     $roleId = isset($_SESSION['role_id']) ? (int)$_SESSION['role_id'] : null;
-    $reviewGate = review_gate($conn, $carId, $userId, $roleId);
+    $reviewGate = review_gate($conn, $motorcycleId, $userId, $roleId);
     if (!$reviewGate["canReview"]) {
         echo json_encode(["success" => false, "message" => $reviewGate["message"]]);
         exit();
@@ -202,12 +202,12 @@ if ($actionCalled == "getCarDetails") {
         $conn,
         "INSERT INTO motorcycle_reviews (motorcycle_id, user_id, rating, review_text) VALUES (?, ?, ?, ?)"
     );
-    $stmt->bind_param("iiis", $carId, $userId, $rating, $reviewText);
+    $stmt->bind_param("iiis", $motorcycleId, $userId, $rating, $reviewText);
 
     if ($stmt->execute()) {
         $stmt->close();
-        $reviewsPayload = fetch_reviews($conn, $carId);
-        $reviewGate = review_gate($conn, $carId, $userId, $roleId);
+        $reviewsPayload = fetch_reviews($conn, $motorcycleId);
+        $reviewGate = review_gate($conn, $motorcycleId, $userId, $roleId);
         echo json_encode([
             "success" => true,
             "message" => "Review added.",
@@ -228,7 +228,7 @@ if ($actionCalled == "getCarDetails") {
         exit();
     }
 
-    if (empty($data['carId']) || empty($data['startDate']) || empty($data['endDate']) || empty($data['totalDays']) || empty($data['pricePerDay'])) {
+    if (empty($data['motorcycleId']) || empty($data['startDate']) || empty($data['endDate']) || empty($data['totalDays']) || empty($data['pricePerDay'])) {
         echo json_encode(["success" => false, "message" => "Missing required information."]);
         exit();
     }
@@ -247,7 +247,7 @@ if ($actionCalled == "getCarDetails") {
     );
     $checkStmt->bind_param(
         "issss",
-        $data['carId'],
+        $data['motorcycleId'],
         $data['startDate'],
         $data['endDate'],
         $data['startDate'],
@@ -268,7 +268,7 @@ if ($actionCalled == "getCarDetails") {
         "INSERT INTO motorcycle_cart (user_id, motorcycle_id, start_date, end_date, total_price)
          VALUES (?, ?, ?, ?, ?)"
     );
-    $stmt->bind_param("iissi", $_SESSION['id'], $data['carId'], $data['startDate'], $data['endDate'], $totalPrice);
+    $stmt->bind_param("iissi", $_SESSION['id'], $data['motorcycleId'], $data['startDate'], $data['endDate'], $totalPrice);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Added to cart."]);

@@ -31,20 +31,20 @@ if (!empty($data['transmission'])) {
 
 
 $page = isset($data['page']) ? $data['page'] : 1;
-$carsPerPage = isset($data['carsPerPage']) ? $data['carsPerPage'] : 3;
-$offset = ($page - 1) * $carsPerPage;
+$motorcyclesPerPage = isset($data['motorcyclesPerPage']) ? $data['motorcyclesPerPage'] : 3;
+$offset = ($page - 1) * $motorcyclesPerPage;
 
-$sql .= " LIMIT $offset, $carsPerPage";
+$sql .= " LIMIT $offset, $motorcyclesPerPage";
 
 $result = $conn->query($sql);
 
-$cars_data = [];
+$motorcyclesData = [];
 if ($result->num_rows > 0) {
-    while ($car = $result->fetch_assoc()) {
-        $carId = $car['id'];
+    while ($motorcycle = $result->fetch_assoc()) {
+        $motorcycleId = $motorcycle['id'];
         $image_sql = "SELECT image_path FROM motorcycle_images WHERE motorcycle_id = ? AND image_order = 1";
         $image_stmt = $conn->prepare($image_sql);
-        $image_stmt->bind_param("i", $carId);
+        $image_stmt->bind_param("i", $motorcycleId);
         $image_stmt->execute();
         $image_stmt->bind_result($image_path);
         
@@ -53,8 +53,8 @@ if ($result->num_rows > 0) {
             $image = $image_path;
         }
         $image_stmt->close();
-        $car['image_path'] = $image;
-        $cars_data[] = $car;
+        $motorcycle['image_path'] = $image;
+        $motorcyclesData[] = $motorcycle;
     }
 }
 
@@ -80,14 +80,14 @@ if (!empty($data['search'])) {
     $totalSql .= " AND name LIKE '%$searchTerm%'";
 }
 
-$totalCarsResult = $conn->query($totalSql);
-$totalCars = $totalCarsResult->fetch_assoc()['total'];
+$totalMotorcyclesResult = $conn->query($totalSql);
+$totalMotorcycles = $totalMotorcyclesResult->fetch_assoc()['total'];
 
-$totalPages = ceil($totalCars / $carsPerPage);
+$totalPages = ceil($totalMotorcycles / $motorcyclesPerPage);
 
 echo json_encode([
     "success" => true,
-    "cars" => $cars_data,
+    "motorcycles" => $motorcyclesData,
     "totalPages" => $totalPages
 ]);
 

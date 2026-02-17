@@ -1,4 +1,4 @@
--- Database and tables for the car_rental app
+
 CREATE DATABASE IF NOT EXISTS car_rental
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;

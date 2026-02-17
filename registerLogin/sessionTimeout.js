@@ -25,7 +25,7 @@ document.addEventListener('click', function() {
 });
 
 
-setInterval(checkSessionTimeout, 10000); // Kontrollo çdo 10 sekond
+setInterval(checkSessionTimeout, 10000); 
 
 function checkSessionTimeout() {
     fetch(sessionTimeoutUrl, {

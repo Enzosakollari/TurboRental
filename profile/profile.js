@@ -1,11 +1,11 @@
-// Profile page controller: handles admin/user views and CRUD actions.
+
 $(document).ready(function() {
-    // Start with everything hidden, then show the right section after we load the user.
+    
     toggleProfileSections({ user: false, list: false, admin: false, menueadmin: false, car: false, motorcycleList: false, addMotorcycle: false });
     get_user_main();
 });
 
-// Central switchboard for showing/hiding the major UI sections.
+
 function toggleProfileSections({ user = false, list = false, admin = false, addUser = false, menueadmin = false, car = false, addCar = false, motorcycleList = false, addMotorcycle = false } = {}) {
     $('#profile_user').toggle(user);
     $('#profile_list').toggle(list);
@@ -18,7 +18,7 @@ function toggleProfileSections({ user = false, list = false, admin = false, addU
     $('#motorcycle_details').toggle(addMotorcycle);
 }
 
-// Renders a table body from an array of objects and a field list.
+
 function populateTable(tbodySelector, dataArray, fields) {
     const tbody = document.querySelector(tbodySelector);
    
@@ -33,7 +33,7 @@ function populateTable(tbodySelector, dataArray, fields) {
             row.appendChild(cell);
         });
         
-        // Row click behavior depends on the current list we are showing.
+        
         if (currentTableType === 'user') {
             row.addEventListener('click', () => goDETAILS(item.id)); 
         } else if (currentTableType === 'car') {
@@ -43,7 +43,7 @@ function populateTable(tbodySelector, dataArray, fields) {
         }
         tbody.appendChild(row);
     });
-    // Footer actions per table type (admin-only).
+    
     if (currentTableType === 'user') {
         tbody.insertAdjacentHTML('beforeend', `
             <tr>
@@ -84,7 +84,7 @@ function populateTable(tbodySelector, dataArray, fields) {
     }
 }
 
-// Detect current user and show either admin menu or user profile.
+
 function get_user_main() {
     $.ajax({
         url: 'get_user.php',
@@ -112,7 +112,7 @@ function get_user_main() {
     });
 }
 
-// Admin: fetch and render all users.
+
 function get_list() {
     currentTableType = 'user';
     $.ajax({
@@ -131,7 +131,7 @@ function get_list() {
                 return;
             }
             populateTable('#body-profile-list', data, ['id', 'username', 'email']);
-            toggleProfileSections({ user: false, list: true, admin: false, menueadmin: false, car: false, addCar:false, motorcycleList: false, addMotorcycle: false }); // Show the list
+            toggleProfileSections({ user: false, list: true, admin: false, menueadmin: false, car: false, addCar:false, motorcycleList: false, addMotorcycle: false }); 
         },
         error: err => {
             console.error("Error fetching client list:", err);
@@ -140,7 +140,7 @@ function get_list() {
     });
 }
 
-// Admin: fetch and render the car list.
+
 function get_car_list() {
     currentTableType = 'car';
     $.ajax({
@@ -158,7 +158,7 @@ function get_car_list() {
                 alert("No cars available.");
             }
             populateTable('#body-profile-details-cars-list', data, ['name', 'price_per_day', 'type']);
-            toggleProfileSections({ user: false, list: false, admin: false, menueadmin: false, car: true, addCar:false, motorcycleList: false, addMotorcycle: false }); // Show the car list
+            toggleProfileSections({ user: false, list: false, admin: false, menueadmin: false, car: true, addCar:false, motorcycleList: false, addMotorcycle: false }); 
         },
         error: err => {
             console.error("Error fetching car list:", err);
@@ -167,7 +167,7 @@ function get_car_list() {
     });
 }
 
-// Admin: fetch and render the motorcycle list.
+
 function get_motorcycle_list() {
     currentTableType = 'motorcycle';
     $.ajax({
@@ -194,7 +194,7 @@ function get_motorcycle_list() {
     });
 }
 
-// Regular user: load their own profile details.
+
 function get_user(userId) {
     $.ajax({
         url: 'admin_get_client_select.php',
@@ -212,7 +212,7 @@ function get_user(userId) {
     });
 }
 
-// Admin: view details for a specific user.
+
 function goDETAILS(userId) {
     $.ajax({
         url: 'admin_get_client_select.php',
@@ -231,7 +231,7 @@ function goDETAILS(userId) {
     
 }
 
-// Admin: build and show the "Add User" form dynamically.
+
 function showAddUserForm() {
     toggleProfileSections({ user: false, list: false, admin: false,car:false,menueadmin:false, addUser: true,addCar:false});
     const formContainer = document.createElement('div');
@@ -280,34 +280,34 @@ function showAddUserForm() {
     document.body.appendChild(formContainer);
 }
 
-// Admin: show the "Add Car" form (already in the DOM).
+
 function showAddCarForm(){
     toggleProfileSections({ user: false, list: false, admin: false, addUser: false, menueadmin: false, car: false, addCar: true, motorcycleList: false, addMotorcycle: false });
 
 }
 
-// Admin: show the "Add Motorcycle" form (already in the DOM).
+
 function showAddMotorcycleForm(){
     toggleProfileSections({ user: false, list: false, admin: false, addUser: false, menueadmin: false, car: false, addCar: false, motorcycleList: false, addMotorcycle: true });
 }
 
-// Admin: hide the add-user form and go back to the list.
+
 function cancelAddUser() {
     toggleProfileSections({ user: false, list: true, admin: false, addUser: false, addCar:false, menueadmin:false, car:false, motorcycleList: false, addMotorcycle: false });
     document.querySelector('#add_user_form').remove();
 }
 
-// Admin: return from add-car to the car list.
+
 function cancelAddCar() {
         toggleProfileSections({ user: false, list: false, admin: false, addUser: false, menueadmin: false, car: true, addCar:false, motorcycleList: false, addMotorcycle: false });
 }
 
-// Admin: return from add-motorcycle to the motorcycle list.
+
 function cancelAddMotorcycle() {
         toggleProfileSections({ user: false, list: false, admin: false, addUser: false, menueadmin: false, car: false, addCar:false, motorcycleList: true, addMotorcycle: false });
 }
 
-// Admin: validate the form and send the new user to the server.
+
 function submitNewUser() {
     const usernameElement = document.querySelector('#user_name_new');
     const emailElement = document.querySelector('#user_email_new');
@@ -319,7 +319,7 @@ function submitNewUser() {
     const verifiedElement = document.querySelector('#user_verified_new');
     const fileInput = document.querySelector('#user_profile_image_new');
 
-    // Basic client-side validation.
+    
     if (!usernameElement.value.trim() || !fullnameElement.value.trim() || !addressElement.value.trim() || !telephoneElement.value.trim() ||
      !emailElement.value.trim() || !passwordElement.value.trim() || !roleElement.value.trim()) {
         alert("Please fill in all required fields.");
@@ -343,7 +343,7 @@ function submitNewUser() {
     }
     const newEmail = emailElement.value.trim();
 
-    // Check if email is already used before submitting the full form.
+    
     $.ajax({
         url: 'check_email.php',
         method: 'POST',
@@ -361,7 +361,7 @@ function submitNewUser() {
                 const newAddress= addressElement.value;
                 const newTelephone= telephoneElement.value;
 
-                // Use FormData so we can send the optional profile image.
+                
                 const formData = new FormData();
                 formData.append('username', newName);
                 formData.append('email', newEmail);
@@ -402,7 +402,7 @@ function submitNewUser() {
     });
 }
 
-// Admin: validate and submit a new car.
+
 function submitNewCar() {
     const nameElement = document.querySelector('#name_new');
     const priceElement = document.querySelector('#price_per_day_new');
@@ -417,7 +417,7 @@ function submitNewCar() {
     const typeElement = document.querySelector('#type_new');
     const fileInput = document.querySelector('#profile_pictures_new');
 
-    // Basic client-side validation.
+    
     if (!nameElement.value.trim() || !priceElement.value.trim() || !fuelElement.value.trim() || !seatsElement.value.trim() ||
         !engineElement.value.trim() || !transmissionElement.value.trim() || !yearElement.value.trim() || !colorElement.value.trim() || !typeElement.value.trim()) {
         alert("Please fill in all required fields.");
@@ -436,7 +436,7 @@ function submitNewCar() {
     formData.append('color', colorElement.value);
     formData.append('type', typeElement.value);
 
-    // Attach all selected photos.
+    
     if (fileInput.files.length > 0) {
         for (let i = 0; i < fileInput.files.length; i++) {
             formData.append('profile_pictures[]', fileInput.files[i]);
@@ -461,7 +461,7 @@ function submitNewCar() {
     });
 }
 
-// Admin: validate and submit a new motorcycle.
+
 function submitNewMotorcycle() {
     const nameElement = document.querySelector('#moto_name_new');
     const priceElement = document.querySelector('#moto_price_per_day_new');
@@ -476,7 +476,7 @@ function submitNewMotorcycle() {
     const seatHeightElement = document.querySelector('#moto_seat_height_mm_new');
     const fileInput = document.querySelector('#moto_pictures_new');
 
-    // Basic client-side validation.
+    
     if (!nameElement.value.trim() || !priceElement.value.trim() || !fuelElement.value.trim() ||
         !engineElement.value.trim() || !transmissionElement.value.trim() || !yearElement.value.trim() ||
         !colorElement.value.trim() || !typeElement.value.trim() || !weightElement.value.trim() || !seatHeightElement.value.trim()) {
@@ -497,7 +497,7 @@ function submitNewMotorcycle() {
     formData.append('weight_kg', weightElement.value);
     formData.append('seat_height_mm', seatHeightElement.value);
 
-    // Attach all selected photos.
+    
     if (fileInput.files.length > 0) {
         for (let i = 0; i < fileInput.files.length; i++) {
             formData.append('moto_pictures[]', fileInput.files[i]);
@@ -522,19 +522,19 @@ function submitNewMotorcycle() {
         }
     });
 }
-// Admin: close the details pane and return to the list.
+
 function exit_admin() {
     $('#profile_admin').hide();
         $('#profile_user').hide();
     $('#profile_list').show();
     console.log("Exited admin profile view.");
 }
-// Admin: return to the main admin menu.
+
 function exit_list(){
     toggleProfileSections({user: false, list: false, admin: false, addUser: false, menueadmin: true, car: false, addCar: false, motorcycleList: false, addMotorcycle: false});
 }
 
-// Build a table of user details (admin or user view).
+
 function populateDetails(tbodySelector, user) {
     const tbody = document.querySelector(tbodySelector);
     tbody.innerHTML = ""; 
@@ -544,7 +544,7 @@ function populateDetails(tbodySelector, user) {
     let thId = document.createElement('td');
     thId.textContent = 'ID';
     
-     // Admin-only: show the numeric user ID.
+     
      if(role_id == 1){
         let tdIdValue = document.createElement('td');
         let inputId = document.createElement('input');
@@ -639,7 +639,7 @@ function populateDetails(tbodySelector, user) {
     rowEmail.appendChild(tdEmailValue);
     tbody.appendChild(rowEmail);
     
-    // Admin-only: show password field (empty for manual reset).
+    
     if(role_id==1){
     let rowPassword = document.createElement('tr');
     
@@ -649,7 +649,7 @@ function populateDetails(tbodySelector, user) {
     let tdPasswordValue = document.createElement('td');
     let inputPassword = document.createElement('input');
     inputPassword.type = 'password';
-    inputPassword.id = 'user_password_' + user.id; // or some unique ID
+    inputPassword.id = 'user_password_' + user.id; 
     
     tdPasswordValue.appendChild(inputPassword);
     rowPassword.appendChild(thPassword);
@@ -708,7 +708,7 @@ rowProfile.appendChild(thProfile);
 rowProfile.appendChild(tdProfileValue);
 tbody.appendChild(rowProfile);
 	
-    // Admin-only: show role, verified status, and timestamps.
+    
     if(role_id == 1){
         let rowRole = document.createElement('tr');
         let thRole = document.createElement('td');
@@ -763,7 +763,7 @@ tbody.appendChild(rowProfile);
 	rowUpdated.appendChild(tdUpdatedValue);
 	tbody.appendChild(rowUpdated);
 
-    // Admin-only: quick access to booking history.
+    
     let rowButton = document.createElement('tr');
     let tdButton = document.createElement('td');
     tdButton.setAttribute('colspan', '2');
@@ -778,7 +778,7 @@ tbody.appendChild(rowProfile);
 
      }
      console.log(role_id);
-     // Admin actions: exit, update, delete.
+     
      if(role_id==1){
 
      tbody.insertAdjacentHTML('beforeend', `
@@ -802,7 +802,7 @@ tbody.appendChild(rowProfile);
         </tr>
       `);
     }else{
-        // User actions: update own data, booking history, and logout.
+        
         tbody.insertAdjacentHTML('beforeend', `
             <tr>
                 <td colspan="1">
@@ -823,7 +823,7 @@ tbody.appendChild(rowProfile);
     }
 }
 
-// End the session server-side and return to home.
+
 function signOut() {
     $.ajax({
         url: 'logout.php',         
@@ -840,7 +840,7 @@ function signOut() {
     });
 }
 
-// Admin: update a user's profile details (includes role/verified).
+
 function updateDETAILS(userId) {
     console.log('userId:', userId);
     const usernameElement = document.querySelector('#user_name_' + userId);
@@ -853,7 +853,7 @@ function updateDETAILS(userId) {
     const verifiedElement = document.querySelector('#user_verified_' + userId);
     const fileInput = document.querySelector('#user_profile_image_' + userId);
 
-    // Ensure the expected inputs exist before submitting.
+    
     if (!usernameElement || !emailElement || !passwordElement  || !emriploteElement  || !adresaElement  || !telElement  || !roleElement || !verifiedElement || !fileInput) {
         console.error("One or more elements are missing.");
         alert("An error occurred: One or more elements are missing.");
@@ -870,11 +870,11 @@ function updateDETAILS(userId) {
        alert("Please enter a valid email address.");
        return;
    }
-//    const passwordRegex = /^(?=.[A-Za-z])(?=.[-._!#$%&?])[A-Za-z\d!#$%&?]{8,255}$/;
-//    if (!passwordRegex.test(passwordElement.value.trim())) {
-//        alert("Password must be at least 8 characters long and include a letter and a special character.");
-//        return;
-//    }
+
+
+
+
+
     const updatedName = usernameElement.value;
     const updatedEmail = emailElement.value;
     const updatedPassword = passwordElement.value;
@@ -884,9 +884,9 @@ function updateDETAILS(userId) {
     const updatedRole = roleElement.value;
     const updatedIsVerified = verifiedElement.checked ? 1 : 0;
 
-    // Use FormData so profile image can be uploaded.
+    
     const formData = new FormData();
-    formData.append('id', userId);//celesat:id,username etj perdoren ne php per te marre vlerat
+    formData.append('id', userId);
     formData.append('username', updatedName);
     formData.append('email', updatedEmail);
     formData.append('emriplote', updatedEmriPlote);
@@ -918,7 +918,7 @@ function updateDETAILS(userId) {
     });
 }
 
-// User: update only their own details (no role/verified).
+
 function updateUser(userId) {
     console.log('userId:', userId);
     const usernameElement = document.querySelector('#user_name_' + userId);
@@ -929,7 +929,7 @@ function updateUser(userId) {
     const telElement= document.querySelector('#tel'+ userId);
 
     const fileInput = document.querySelector('#user_profile_image_' + userId);
-    // Ensure the expected inputs exist before submitting.
+    
     if (!usernameElement || !emailElement || !emriploteElement  || !adresaElement  || !telElement || !fileInput) {
         console.error("One or more elements are missing.");
         alert("An error occurred: One or more elements are missing.");
@@ -941,7 +941,7 @@ function updateUser(userId) {
     const updatedAddress= adresaElement.value;
     const updatedTel=telElement.value;
 
-    // Use FormData so profile image can be uploaded.
+    
     const formData = new FormData();
     formData.append('id', userId);
     formData.append('username', updatedName);
@@ -970,7 +970,7 @@ function updateUser(userId) {
     });
 }
 
-// Admin: delete a user after confirmation.
+
 function deleteUser(userId) {
     console.log("Deleting user with ID: ", userId); 
     if (!confirm("Are you sure you want to delete user with ID: " + userId + "?")) {
@@ -999,13 +999,13 @@ function deleteUser(userId) {
     });
 }
 
-// Small helper to read a cookie by name.
+
 function getCookie(name) {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     return match ? match[2] : null;
 }
 
-// Admin: delete the currently selected car from the details modal.
+
 document.getElementById("fshiButton").addEventListener("click", function(){
     var carId = getCookie('car_id');
 
@@ -1031,7 +1031,7 @@ document.getElementById("fshiButton").addEventListener("click", function(){
     }
 });
 
-// User: start the password change flow by emailing a verification code.
+
 function changePassword(){
     event.preventDefault();
     const button = event.target;
@@ -1063,7 +1063,6 @@ function changePassword(){
 
 }
 
-// User/Admin: open booking history modal and load confirmed bookings.
 function showBookingHistory(userId) {
     let historyModal = document.getElementById('bookingHistoryModal');
 
@@ -1122,14 +1121,12 @@ function showBookingHistory(userId) {
         });
 }
 
-// Close the booking history modal.
 document.getElementById("exitButton").addEventListener("click", function(){
     document.getElementById('bookingHistoryModal').style.display = 'none';
     document.getElementById('bokingHistoryContainer').innerHTML = '';
 
 });
 
-// Click outside the modal to close it.
 window.onclick = function(event) {
     if (event.target == document.getElementById("bookingHistoryModal")) {
       document.getElementById("bookingHistoryModal").style.display = "none";

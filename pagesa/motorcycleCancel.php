@@ -15,7 +15,7 @@
         }
 
         body {
-            background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+            background: radial-gradient(1200px 800px at 10% 0%, 
             color: var(--text);
             line-height: 1.6;
         }
@@ -49,7 +49,7 @@
             display: inline-block;
             padding: 10px 20px;
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            color: #fff;
+            color: 
             text-decoration: none;
             border-radius: 999px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;

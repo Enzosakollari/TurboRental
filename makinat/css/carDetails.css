@@ -12,7 +12,7 @@ body, html{
 #container{
     border-radius: var(--radius-lg);
     background-color: var(--surface);
-    /* width: 1200px; */
+    
     padding: 40px;
     padding-left: 0px;
     box-shadow: var(--shadow-md);

@@ -1,8 +1,8 @@
 @import url('/Makina/theme.css');
 
-/* Modal Background */
+
 .modal {
-  display: none; /* Hidden by default */
+  display: none; 
   position: fixed;
   z-index: 100;
   left: 0;
@@ -11,14 +11,14 @@
   height: 100%;
   background: rgba(15, 27, 45, 0.45);
   overflow: auto;
-  /* padding-top: 60px; */
+  
   backdrop-filter: blur(6px);
 }
 
-/* Modal Content */
+
 .modal-content {
   background-color: var(--surface);
-  /* margin: 5% auto; */
+  
   margin: 100px auto;
   padding: 24px;
   border-radius: var(--radius-md);
@@ -35,7 +35,7 @@
 .modal-content p{
   margin:0;
 }
-/* Close Button (X) */
+
 .close {
   color: var(--muted);
   font-size: 30px;
@@ -67,7 +67,7 @@
   font-weight: 600;
   box-shadow: var(--shadow-sm);
 }
-/* Apply Button */
+
 #applyBtn {
   background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
   color: white;
@@ -92,47 +92,47 @@
   padding: 0.8rem 0.7rem;
   max-width: 300px;
   border-radius: 0.2rem;
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0,0.2); */
+  
   margin: 0 auto;
 }
 
-/* Hide default checkboxes */
+
 .custom-checkbox input[type="checkbox"] {
   display: none;
 }
 
-/* Style for the labels */
+
 .custom-checkbox label {
   position: relative;
   display: flex;
   align-items: center;
-  /* font-size: 1.rem; */
+  
   cursor: pointer;
-  padding-left: 35px; /* Space for the custom checkbox */
+  padding-left: 35px; 
 }
 
-/* Custom checkbox style */
+
 .custom-checkbox label::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
-  /* transform: translateY(-50%); */
+  
   width: 19px;
   height: 19px;
-  border-radius: 6px; /* Slightly rounded corners for checkboxes */
+  border-radius: 6px; 
   border: 2px solid var(--accent-2);
   background-color: white;
   transition: all 0.3s, border 0.3s;
 }
 
-/* Checked checkbox style */
+
 .custom-checkbox input[type="checkbox"]:checked + label::before {
   background-color: var(--accent-2);
   border-color: var(--accent-2);
 }
 
-/* Checkmark when checkbox is checked */
+
 .custom-checkbox input[type="checkbox"]:checked + label::after {
   content: '';
   position: absolute;
@@ -145,35 +145,35 @@
   transform: rotate(45deg);
 }
 
-/* Hover effect for the checkbox */
+
 .custom-checkbox label:hover::before {
   border-color: var(--accent-3);
 }
 
-/* Focus effect for the checkbox */
+
 .custom-checkbox input[type="checkbox"]:focus + label::before {
   box-shadow: 0 0 0 3px rgba(15, 139, 157, 0.25);
 }
 
-/* Style for the container title */
+
 .radio-container h2 {
   text-align: center;
   font-size: 20px;
   color: var(--text);
 }
 
-/*  */
+
 .price-container {
-  /* position: relative; */
+  
   align-self: center;
   border-radius: 0.5rem;
-  /* padding: 0.8rem 0.6rem; */
+  
   box-shadow: var(--shadow-sm);
 
 
 }
 
-/* Style the number input box */
+
 .price-container input[type="number"] {
   width: 100%;
   padding: 10px;
@@ -188,13 +188,13 @@
   transition: all 0.3s;
 }
 
-/* Focus effect for input */
+
 .price-container input[type="number"]:focus {
   border-color: var(--accent-2);
   box-shadow: 0 0 0 3px rgba(15, 139, 157, 0.2);
 }
 
-/* Hide default spinner (up and down arrows) */
+
 .price-container input::-webkit-outer-spin-button,
 .price-container input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -202,7 +202,7 @@
 }
 
 
-/* Optional: Add custom up and down buttons (using ::after and ::before) */
+
 .price-container button {
   position: absolute;
   top: 0;
@@ -216,28 +216,28 @@
   border-radius: 5px;
 }
 
-/* Style the up button */
+
 .price-container button.up {
   border-radius: 5px 0 0 5px;
 }
 
-/* Style the down button */
+
 .price-container button.down {
   border-radius: 0 5px 5px 0;
 }
 
-/* Button hover effects */
+
 .price-container button:hover {
   background-color: var(--accent-3);
 }
 
-/*  */
+
 .select-container {
   background-color: var(--surface);
   padding: 20px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0,0.2); */
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -274,20 +274,9 @@ option {
 
 
 
-/* per car detail page */
-/* modal e kam ba koment sepse perdori t njejten qe esht lart */
-/* .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 100; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0, 0, 0, 0.4); /
 
-  
-} */
+
+
 
 
 .carDetails {

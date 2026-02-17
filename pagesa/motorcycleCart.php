@@ -42,8 +42,8 @@ ob_start();
                         $stmt = $conn->prepare($sql);
                         $stmt->bind_param("i", $product['motorcycle_id']);
                         $stmt->execute();
-                        $carResult = $stmt->get_result();
-                        $carFound = $carResult->fetch_all(MYSQLI_ASSOC);
+                        $motorcycleResult = $stmt->get_result();
+                        $motorcycleFound = $motorcycleResult->fetch_all(MYSQLI_ASSOC);
                         $stmt->close();
 
                         $sql = "SELECT * FROM motorcycle_images WHERE motorcycle_id = ? LIMIT 1";
@@ -60,8 +60,8 @@ ob_start();
                         ?>
                         <tr>
                             <td><img src="/Makina/images/motorcycles/<?php echo htmlspecialchars($image[0]['image_path']); ?>" alt="Motorcycle Image"></td>
-                            <td><?php echo htmlspecialchars($carFound[0]['name']); ?></td>
-                            <td><?php echo htmlspecialchars($carFound[0]['price_per_day']); ?></td>
+                            <td><?php echo htmlspecialchars($motorcycleFound[0]['name']); ?></td>
+                            <td><?php echo htmlspecialchars($motorcycleFound[0]['price_per_day']); ?></td>
                             <td><?php echo htmlspecialchars($interval->days); ?></td>
                             <td><?php echo htmlspecialchars($product['total_price']); ?></td>
                         </tr>

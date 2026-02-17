@@ -1,4 +1,4 @@
-const apiUrl = '/Makina/makinat/main.php'; // Adjust this path to your file location
+const apiUrl = '/Makina/makinat/main.php'; 
 import { filters } from "./filters.js?v=3";
 export let cars = [];
 let filteredCars = [];
@@ -17,7 +17,7 @@ function normalizeLabel(value, map) {
   return map[key] || value;
 }
 
-// Function to fetch car details with filters and pagination
+
 export async function getCarDetails(filters = {},search='', page = 1) {
   try {
     const response = await fetch(apiUrl, {
@@ -106,7 +106,7 @@ export function updatePagination() {
 
   pageLinksContainer.innerHTML = "";
 
-  const visiblePages = 4; // Number of visible page links
+  const visiblePages = 4; 
   const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
   const endPage = Math.min(totalPages, startPage + visiblePages - 1);
 

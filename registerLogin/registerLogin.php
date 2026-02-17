@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 if($actionCalled == "register"){
     session_start(); 
     
-    // $data = json_decode(file_get_contents("php://input"), true); 
+    
 
     if (empty($data['username']) || empty($data['email']) || empty($data['password'])) {
         echo json_encode(["success" => false, "message" => "Required fields are missing."]);
@@ -77,7 +77,7 @@ else if($actionCalled == "login"){
     header('Content-Type: application/json');
     session_start();
 
-    // $data = json_decode(file_get_contents("php://input"), true);
+    
 
     if (empty($data['email']) || empty($data['password'])) {
         echo json_encode(["success" => false, "message" => "Please fill in all fields."]);
@@ -219,11 +219,11 @@ else if($actionCalled == "login"){
             echo json_encode(["success" => false, "message" => "The password does not match the email."]);
         }
     } else {
-        // $loginAttemptStmt = $conn->prepare("INSERT INTO login_attempts (user_id, successful) VALUES (?, ?)");
-        // $successful = false;
-        // $user_id = null; 
-        // $loginAttemptStmt->bind_param("ii", $user_id, $successful);
-        // $loginAttemptStmt->execute();
+        
+        
+        
+        
+        
         echo json_encode(["success" => false, "message" => "No user is registered with this email."]);
         exit();
     }

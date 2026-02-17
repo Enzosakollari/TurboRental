@@ -7,7 +7,7 @@ let imagePaths;
                 const key = value.toString().toLowerCase();
                 return map[key] || value;
             }
-            function getCookie(name) {
+            function getMotorcycleCookie(name) {
                 const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
                 return match ? match[2] : null;
             }
@@ -94,22 +94,22 @@ let imagePaths;
                 }
             }
 
-            function showCarDetails(){
+            function showMotorcycleDetails(){
                 const clickedElement = event.target.closest('.container');
-                carId = clickedElement.id;
-                document.cookie = "car_id=" + carId + "; path=/";
+                motorcycleId = clickedElement.id;
+                document.cookie = "motorcycle_id=" + motorcycleId + "; path=/";
 
-                console.log(carId);
+                console.log(motorcycleId);
                 imagePosition = 0;
-                document.getElementById("carDetailsModal").style.display = 'block';
-                if(carId){
-                  console.log(carId);
+                document.getElementById("motorcycleDetailsModal").style.display = 'block';
+                if(motorcycleId){
+                  console.log(motorcycleId);
                   const data = {
-                      carId: carId,
-                      action: "getCarDetails"
+                      motorcycleId: motorcycleId,
+                      action: "getMotorcycleDetails"
                   };
               
-                  fetch("/Makina/motorcycles/carDetails.php", {
+                  fetch("/Makina/motorcycles/motorcycleDetails.php", {
                       method: "POST",
                       headers: {
                           "Content-Type": "application/json"
@@ -120,32 +120,32 @@ let imagePaths;
                   .then(text => {
                       const data = safeJsonParse(text);
                       if(data.success){
-                          document.getElementById("carName").innerText = data.name;
-                          document.getElementById("carPrice").innerText = data.pricePerDay;
-                          document.getElementById("carSeatingCapacity").innerText = data.seatHeightMm;
-                          document.getElementById("carEngine").innerText = data.engineCc;
-                          document.getElementById("carTransmission").innerText = normalizeLabel(data.transmission, transmissionLabels);
-                          const weightLabel = document.getElementById("carWeight");
+                          document.getElementById("motorcycleName").innerText = data.name;
+                          document.getElementById("motorcyclePrice").innerText = data.pricePerDay;
+                          document.getElementById("motorcycleSeatHeight").innerText = data.seatHeightMm;
+                          document.getElementById("motorcycleEngine").innerText = data.engineCc;
+                          document.getElementById("motorcycleTransmission").innerText = normalizeLabel(data.transmission, transmissionLabels);
+                          const weightLabel = document.getElementById("motorcycleWeight");
                           if (weightLabel) {
                               weightLabel.innerText = data.weightKg;
                           }
                           if(data.abs == 1){
-                              document.getElementById("carBluetooth").innerText = "Yes";
+                              document.getElementById("motorcycleAbs").innerText = "Yes";
                           }
                           else{
-                              document.getElementById("carBluetooth").innerText = "No";
+                              document.getElementById("motorcycleAbs").innerText = "No";
                           }
-                          document.getElementById("carGPS").innerText = data.fuel;
-                          document.getElementById("carColor").innerText = data.color;
-                          document.getElementById("carType").innerText = data.type;
-                          document.getElementById("carYear").innerText = data.year;
+                          document.getElementById("motorcycleFuel").innerText = data.fuel;
+                          document.getElementById("motorcycleColor").innerText = data.color;
+                          document.getElementById("motorcycleType").innerText = data.type;
+                          document.getElementById("motorcycleYear").innerText = data.year;
                           imagePaths = Array.isArray(data.images) ? data.images : [];
                           console.log('Image paths:', imagePaths);
                           imagePathLength = imagePaths.length;
                           console.log(imagePathLength);
                           const firstImage = imagePaths[0];
                           const imageSrc = firstImage ? "/Makina/images/motorcycles/" + firstImage : "/Makina/images/default.jpg";
-                          document.getElementById("carImage").src = imageSrc;
+                          document.getElementById("motorcycleImage").src = imageSrc;
 
                           updateReviewUI(data.reviewSummary, data.reviews, {
                               canReview: data.canReview,
@@ -161,7 +161,7 @@ let imagePaths;
                   });
                 }
                 else{
-                    alert("carId not found in cookies");
+                    alert("motorcycleId not found in cookies");
                 }
               
               
@@ -174,12 +174,12 @@ let imagePaths;
 
               
               document.getElementById("dilButton").addEventListener("click", function(){
-                document.getElementById("carDetailsModal").style.display = "none";
+                document.getElementById("motorcycleDetailsModal").style.display = "none";
 
               });
               window.onclick = function(event) {
-                if (event.target == document.getElementById("carDetailsModal")) {
-                  document.getElementById("carDetailsModal").style.display = "none";
+                if (event.target == document.getElementById("motorcycleDetailsModal")) {
+                  document.getElementById("motorcycleDetailsModal").style.display = "none";
                 }
               };
             document.getElementById("startDate").addEventListener("change", function(){
@@ -225,7 +225,7 @@ let imagePaths;
                 if(imagePathLength > 0 && imagePosition - 1 >= 0){
                     imagePosition--;
 
-                    document.getElementById("carImage").src = "/Makina/images/motorcycles/"+imagePaths[imagePosition];
+                    document.getElementById("motorcycleImage").src = "/Makina/images/motorcycles/"+imagePaths[imagePosition];
 
                 }
             });
@@ -234,7 +234,7 @@ let imagePaths;
                 if(imagePathLength > 0 && imagePosition + 1 < imagePathLength){
                     imagePosition++;
 
-                    document.getElementById("carImage").src = "/Makina/images/motorcycles/"+imagePaths[imagePosition];
+                    document.getElementById("motorcycleImage").src = "/Makina/images/motorcycles/"+imagePaths[imagePosition];
 
                 }
             });
@@ -244,7 +244,7 @@ let imagePaths;
                 reviewForm.addEventListener("submit", function(event) {
                     event.preventDefault();
 
-                    const carId = getCookie("car_id");
+                    const motorcycleId = getMotorcycleCookie("motorcycle_id");
                     const ratingInput = document.querySelector('input[name="reviewRating"]:checked');
                     const rating = ratingInput ? ratingInput.value : "";
                     const reviewText = document.getElementById("reviewText").value.trim();
@@ -257,14 +257,14 @@ let imagePaths;
                         return;
                     }
 
-                    fetch("/Makina/motorcycles/carDetails.php", {
+                    fetch("/Makina/motorcycles/motorcycleDetails.php", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
                             action: "addReview",
-                            carId: carId,
+                            motorcycleId: motorcycleId,
                             rating: rating,
                             reviewText: reviewText
                         })

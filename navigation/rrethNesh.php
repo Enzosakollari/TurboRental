@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/Makina/theme.css">
     <style>
-        #bigContainer, h1, h2, p {
-            margin: 0;
-            padding: 0;
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
-            font-family: "Manrope", sans-serif;
         }
 
-        #bigContainer {
-            background: radial-gradient(1200px 800px at 10% 0%, #1a2440 0%, #0a0f1c 55%, #05070f 100%);
+        body {
+            margin: 0;
+            padding: 72px 0 96px;
+            font-family: "Manrope", sans-serif;
+            background: radial-gradient(1200px 800px at 10% 0%, #141e36 0%, var(--bg) 55%, #05070f 100%);
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 72px 0 96px;
         }
 
         .content {
@@ -56,13 +57,13 @@
         }
 
         h1 {
-            color: #fff;
+            color: var(--text);
             font-size: 2rem;
             margin-bottom: 12px;
         }
 
         h2 {
-            color: #fff;
+            color: var(--text);
             font-size: 1.5rem;
             margin-bottom: 8px;
         }
@@ -118,7 +119,7 @@
         }
 
         .step-card strong {
-            color: #fff;
+            color: var(--text);
             font-size: 1rem;
         }
 
@@ -145,7 +146,7 @@
         }
 
         .guarantee-card strong {
-            color: #fff;
+            color: var(--text);
             font-size: 1rem;
         }
 
@@ -173,7 +174,7 @@
         }
 
         .payment-card strong {
-            color: #fff;
+            color: var(--text);
             font-size: 1rem;
         }
 
@@ -227,7 +228,8 @@
         }
 
         .site-footer {
-            background: linear-gradient(135deg, #4a0d14, #6b111a);
+            background: linear-gradient(135deg, rgba(16, 23, 38, 0.9), rgba(7, 12, 22, 0.9));
+            border-top: 1px solid var(--border);
         }
     </style>
 </head>

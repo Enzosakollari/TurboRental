@@ -82,57 +82,57 @@
     </div>
     
 
-    <div id="carDetailsModal" class="modal">
-      <div class="carDetails">
+    <div id="motorcycleDetailsModal" class="modal">
+      <div class="motorcycleDetails">
         <div id="imageContainer">
 
           <button id="leftArrow"><</button>
-          <img id="carImage" alt="car" >
+          <img id="motorcycleImage" alt="motorcycle" >
           <button id="rightArrow">></button>
 
         </div>
         <div id="detailsContainer">
-          <h1 id="carName"></h1>
+          <h1 id="motorcycleName"></h1>
           <div>
               <label class="staticLabel">Year: </label>
-              <label id="carYear" class="detailLabel"></label>
+              <label id="motorcycleYear" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Transmission: </label>
-              <label id="carTransmission" class="detailLabel"></label>
+              <label id="motorcycleTransmission" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Engine (cc): </label>
-              <label id="carEngine" class="detailLabel"></label>
+              <label id="motorcycleEngine" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Seat height (mm): </label>
-              <label id="carSeatingCapacity" class="detailLabel"></label>
+              <label id="motorcycleSeatHeight" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Weight (kg): </label>
-              <label id="carWeight" class="detailLabel"></label>
+              <label id="motorcycleWeight" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">ABS: </label>
-              <label id="carBluetooth" class="detailLabel"></label>
+              <label id="motorcycleAbs" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Fuel: </label>
-              <label id="carGPS" class="detailLabel"></label>
+              <label id="motorcycleFuel" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Color: </label>
-              <label id="carColor" class="detailLabel"></label>
+              <label id="motorcycleColor" class="detailLabel"></label>
           </div>
           <div>
               <label class="staticLabel">Type: </label>
-              <label id="carType" class="detailLabel"></label>
+              <label id="motorcycleType" class="detailLabel"></label>
           </div>
 
           <div>
               <label class="staticLabel">Daily price: </label>
-              <label id="carPrice" class="detailLabel"></label>
+              <label id="motorcyclePrice" class="detailLabel"></label>
               <label class="detailLabel"> EUR</label>
               
           </div>
@@ -199,7 +199,7 @@
   </body>
 
   <script type="module" src="./main.js?v=3"></script>
-  <script src="./carDetails.js?v=3"></script>
+  <script src="./motorcycleDetails.js?v=3"></script>
   <script type="module" src="./modal.js?v=3"></script>
   <script type="module" src="./filters.js?v=3"></script>
   <script src="/Makina/registerLogin/sessionTimeout.js"></script>

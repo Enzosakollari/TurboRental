@@ -198,14 +198,14 @@ main {
   padding: 0 1rem;
 }
 
-.car-name{
+.motorcycle-name{
   margin: 0.5rem 0 0 0;
   font-size: 1.2rem;
   font-weight: 700;
   align-self: center;
 }
 
-.car-details-container{
+.motorcycle-details-container{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -213,7 +213,7 @@ main {
   align-items: center;
 }
 
-.car-details-container i{
+.motorcycle-details-container i{
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 6px 12px;
   border-radius: 999px;
@@ -224,7 +224,7 @@ main {
   align-items: center;
   gap: 6px;
 }
-.car-details-container i .text{
+.motorcycle-details-container i .text{
   text-align: center;
 }
 
@@ -232,7 +232,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #f1f1f1; */
+  
   padding: 20px 0;
 }
 
@@ -282,7 +282,7 @@ main {
 
 }
 
-.carDetails {
+.motorcycleDetails {
   background-color: #fefefe;
   margin: 5% auto;
 
@@ -292,7 +292,7 @@ main {
   width: fit-content;
   border-radius: 15px;
   background-color: white;
-  /* width: 1200px; */
+  
   padding: 40px;
   padding-left: 0px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -304,7 +304,7 @@ main {
   align-items: center;
 }
 
-#carImage{
+#motorcycleImage{
   width: 700px; 
   height: 500px; 
   border-radius: 10px;
